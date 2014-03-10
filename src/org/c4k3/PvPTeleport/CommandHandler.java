@@ -20,7 +20,7 @@ public class CommandHandler implements CommandExecutor {
 		
 		if ( scmd.equals("pvplist") ) return PvPListCommand.main(player);
 		
-		return true;
+		return true; // Why?
 	}
 
 }
