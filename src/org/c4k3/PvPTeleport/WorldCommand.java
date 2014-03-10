@@ -128,15 +128,17 @@ public class WorldCommand {
 
 		World world = player.getWorld();
 
-		for ( Entity entity : world.getEntitiesByClasses(Blaze.class, Creeper.class, Enderman.class, Ghast.class, PigZombie.class, Skeleton.class, Spider.class, Witch.class, CaveSpider.class, Slime.class, MagmaCube.class, Silverfish.class, Zombie.class) ) {
-
-			if ( entity.getLocation().distance(pLoc) < 5 ) return true;
-
-		}
-
 		for ( Player p : world.getPlayers() ) {
+			/* Check if there are any players within 50 blocks */
 
 			if ( !p.equals(player) && p.getLocation().distance(pLoc) < 50 && player.canSee(p) ) return true;
+
+		}
+		
+		for ( Entity entity : world.getEntitiesByClasses(Blaze.class, Creeper.class, Enderman.class, Ghast.class, PigZombie.class, Skeleton.class, Spider.class, Witch.class, CaveSpider.class, Slime.class, MagmaCube.class, Silverfish.class, Zombie.class) ) {
+			/* Check if there are any hostile mobs within 50 blocks */
+
+			if ( entity.getLocation().distance(pLoc) < 5 ) return true;
 
 		}
 
@@ -149,7 +151,7 @@ public class WorldCommand {
 
 		Material[] nonsolids; // This array determines which blocks it is okay to spawn IN
 
-		nonsolids = new Material[12]; // IMPORTANT: Make sure the size of the array is the same as the amount of blocks put into the array
+		nonsolids = new Material[12]; // IMPORTANT: Make sure the size of the array is the same as the amount of blocks put into the array. Apparently java won't let you do arrays of arbitrary size (why aren't I using an ArrayList?)
 
 		nonsolids[0] = Material.AIR;
 		nonsolids[1] = Material.SAPLING;
@@ -173,6 +175,7 @@ public class WorldCommand {
 		int counter = 1;
 
 		while ( counter < 1000 ) {
+			/* We try 1000 random locations. Give up otherwise */
 
 			Double y = 60.0;
 			Double x = (double) randomGenerator.nextInt(299) - 149.5;
@@ -185,7 +188,8 @@ public class WorldCommand {
 			blocktype = spawnloc.getBlock().getType();
 
 			while ( blocktype == Material.STONE || blocktype == Material.GRASS || blocktype == Material.DIRT || blocktype == Material.COBBLESTONE || blocktype == Material.WATER || blocktype == Material.STATIONARY_WATER ||  blocktype == Material.SAND || blocktype == Material.SANDSTONE && y <= 250 ) {
-
+				/* While the block at the random location (y = 60) is one of the above: check if the 3 blocks above are valid nonsolids. If they all are, we've got a valid location. If not, we try to increment y by one and check again. */
+				
 				Double y1 = y + 1;
 				Double y2 = y + 2;
 				Double y3 = y + 3;
@@ -201,7 +205,7 @@ public class WorldCommand {
 				if ( Arrays.binarySearch(nonsolids, blocktype1) > -1 && Arrays.binarySearch(nonsolids, blocktype2) > -1) {
 
 					PvPTeleport.instance.getLogger().info("Found valid pvpworld spawn location on attempt " + counter);
-					spawnloc.setY(y3);
+					spawnloc.setY(y3); // Put the player's head 3 blocks above the surface. This way they'll fall 1 block, good for lag other instabilities
 					return spawnloc;
 
 				}
