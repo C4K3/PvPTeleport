@@ -1,0 +1,11 @@
+name: PvPTeleport
+main: org.c4k3.PvPTeleport.PvPTeleport
+version: 1.1 #Bukkit 1.6.4D1841
+depend: [MultiWorld]
+commands:
+  world:
+    description: Teleports player between overworld and pvp world
+    usage: Error. Please report at http://simpvp.net/forum
+  pvplist:
+    description: Lists all players in the pvp world
+    usage: Error. Please report at http://simpvp.net/forum
