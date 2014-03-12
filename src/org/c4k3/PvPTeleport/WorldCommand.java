@@ -23,15 +23,13 @@ import org.bukkit.entity.Spider;
 import org.bukkit.entity.Witch;
 import org.bukkit.entity.Zombie;
 
-/* This class is reponsible for handling the /world command
- * Teleports players to a random location in the pvp world */
 public class WorldCommand {
 
-	/* Teleports input player to a random location in the pvp world
-	 * Returns true if it was properly handled
-	 * (player was teleported, or player was determined to not be eligible for teleport)
-	 * Returns false if it was not properly handled */
 	public static boolean main(Player player) {
+		/** Teleports player to a random location in the pvp world
+		 * Returns true if it was properly handled (teleport successful, or player was deteremined ineligible for teleport)
+		 * Returns false if it failed
+		 */
 
 		if ( player != null ) {
 
@@ -119,10 +117,11 @@ public class WorldCommand {
 
 	}
 
-	/* Checks player is not trying to combatlog
-	 * Returns true if player is within 50 blocks of any other players, or 5 blocks of any mobs
-	 * else returns false */
 	private static boolean combatLogCheck(Player player) {
+		/** Checks that player is not trying to combatlog
+		 * Returns true if player is within 50 blocks of any other players, or 5 blocks of any hostile mobs
+		 * else returns false
+		 */
 
 		Location pLoc = player.getLocation();
 
@@ -146,8 +145,8 @@ public class WorldCommand {
 
 	}
 
-	/* Returns a random (relatively) safe spawn location in the pvp world */
 	private static Location pvpspawn() {
+		/** Returns a randomly chosen safe (from the environment) spawn location in the pvp world */
 
 		Material[] nonsolids; // This array determines which blocks it is okay to spawn IN
 

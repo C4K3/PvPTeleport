@@ -41,7 +41,7 @@ public class PvPListCommand {
 
 			}
 
-			if ( counter > 0 ) list = list.substring(0, list.length() - 2) + "";
+			if ( counter > 0 ) list = list.substring(0, list.length() - 2) + ""; // Remove the two trailing characters ( , and the space )
 
 			if ( counter == 1 ) sender.sendMessage(ChatColor.GREEN + " There is currently " + ChatColor.GOLD + '1' + ChatColor.GREEN + " player in the PvP world"); // English grammar is stupid
 			else sender.sendMessage(ChatColor.GREEN + " There are currently " + ChatColor.GOLD + counter + ChatColor.GREEN + " players in the PvP world");
