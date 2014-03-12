@@ -65,13 +65,15 @@ public class EnchantmentBan implements Listener {
 				
 		if ( !event.getWhoClicked().getWorld().getName().equals("pvp") ) return; // Return if this happens anywhere but the pvp world
 		
-		Bukkit.getLogger().info("Clicked slot: " + event.getSlot() + " " + event.getSlotType() + " " + event.getAction() + " " + event.getCursor()); // For decoding the bukkit api
+		//Bukkit.getLogger().info("Clicked slot: " + event.getSlot() + " " + event.getSlotType() + " " + event.getAction() + " " + event.getCursor()); // For decoding the bukkit api
 		
 		if ( event.getSlotType() == InventoryType.SlotType.QUICKBAR || event.getSlotType() == InventoryType.SlotType.ARMOR ) {
 			Bukkit.getLogger().info("Clicked dangerous slot");
 			
 			if ( !event.getCursor().getEnchantments().isEmpty() ) {
-				/* Again with the double negatives. This is now an illegal action. Simply canceling the action will make
+				/* Again with the double negatives. This is now an illegal action.
+				 * 
+				 * Simply canceling the action will make
 				 * the item disappear. So we have to cancel, and then we use World.dropItem to spawn it again in front
 				 * of the player.
 				 */
