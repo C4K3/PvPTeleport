@@ -78,6 +78,8 @@ public class EnchantmentBan implements Listener {
 				
 				ItemStack item = event.getCursor();
 				
+				PvPTeleport.instance.getLogger().info("Dropping enchanted item: " + item); // You never know. Might come in handy
+				
 				Location loc = event.getWhoClicked().getLocation();
 				
 				loc.getWorld().dropItem(loc, item);

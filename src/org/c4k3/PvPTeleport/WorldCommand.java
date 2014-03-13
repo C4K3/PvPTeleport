@@ -1,11 +1,7 @@
 package org.c4k3.PvPTeleport;
 
-import java.util.Arrays;
-import java.util.Random;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Blaze;
 import org.bukkit.entity.CaveSpider;
@@ -43,9 +39,7 @@ public class WorldCommand {
 
 					if ( !combatLogCheck(player)) {
 
-						Location rloc = pvpspawn();
-
-						if ( rloc == null ) return false; // If a valid spawn location could not be found
+						//Location spawnloc = new Location(PvPTeleport.instance.getServer().getWorld("pvp"), 0, 64, 0);
 
 						if ( player.isInsideVehicle() ) player.leaveVehicle(); // Forces players out of vehicles
 
@@ -56,8 +50,8 @@ public class WorldCommand {
 
 						SQL.putPlayer(splayer, x, y, z);
 
-						player.teleport(rloc);
-						player.sendMessage(ChatColor.GOLD + "Teleporting to random location in pvp world");
+						player.teleport(PvPTeleport.instance.getServer().getWorld("pvp").getSpawnLocation());
+						player.sendMessage(ChatColor.GOLD + "Teleporting you to the pvp world.");
 
 					} else {
 						/* combat log check failed */
@@ -142,86 +136,6 @@ public class WorldCommand {
 		}
 
 		return false;
-
-	}
-
-	private static Location pvpspawn() {
-		/** Returns a randomly chosen safe (from the environment) spawn location in the pvp world */
-
-		Material[] nonsolids; // This array determines which blocks it is okay to spawn IN
-
-		nonsolids = new Material[12]; // IMPORTANT: Make sure the size of the array is the same as the amount of blocks put into the array. Apparently java won't let you do arrays of arbitrary size (why aren't I using an ArrayList?)
-
-		nonsolids[0] = Material.AIR;
-		nonsolids[1] = Material.SAPLING;
-		nonsolids[2] = Material.GRASS;
-		nonsolids[3] = Material.DEAD_BUSH;
-		nonsolids[4] = Material.YELLOW_FLOWER;
-		nonsolids[5] = Material.RED_ROSE;
-		nonsolids[6] = Material.BROWN_MUSHROOM;;
-		nonsolids[7] = Material.RED_MUSHROOM;
-		nonsolids[8] = Material.TORCH;
-		nonsolids[9] = Material.SIGN;
-		nonsolids[10] = Material.SIGN_POST;
-		nonsolids[11] = Material.VINE;
-
-		Random randomGenerator = new Random();
-
-		Material blocktype = null;
-		Material blocktype1 = null;
-		Material blocktype2 = null;
-		Location spawnloc = new Location(PvPTeleport.instance.getServer().getWorld("pvp"), 0, 0, 0);
-		int counter = 1;
-
-		while ( counter < 1000 ) {
-			/* We try 1000 random locations. Give up otherwise */
-
-			Double y = 60.0;
-			Double x = (double) randomGenerator.nextInt(299) - 149.5;
-			Double z = (double) randomGenerator.nextInt(299) - 149.5;
-
-			spawnloc.setX(x);
-			spawnloc.setY(y);
-			spawnloc.setZ(z);
-
-			blocktype = spawnloc.getBlock().getType();
-
-			while ( blocktype == Material.STONE || blocktype == Material.GRASS || blocktype == Material.DIRT || blocktype == Material.COBBLESTONE || blocktype == Material.WATER || blocktype == Material.STATIONARY_WATER ||  blocktype == Material.SAND || blocktype == Material.SANDSTONE && y <= 250 ) {
-				/* While the block at the random location (y = 60) is one of the above: check if the 3 blocks above are valid nonsolids. If they all are, we've got a valid location. If not, we try to increment y by one and check again. */
-				
-				Double y1 = y + 1;
-				Double y2 = y + 2;
-				Double y3 = y + 3;
-
-				spawnloc.setY(y1);
-
-				blocktype1 = spawnloc.getBlock().getType();
-
-				spawnloc.setY(y2);
-
-				blocktype2 = spawnloc.getBlock().getType();
-
-				if ( Arrays.binarySearch(nonsolids, blocktype1) > -1 && Arrays.binarySearch(nonsolids, blocktype2) > -1) {
-
-					PvPTeleport.instance.getLogger().info("Found valid pvpworld spawn location on attempt " + counter);
-					spawnloc.setY(y3); // Put the player's head 3 blocks above the surface. This way they'll fall 1 block, good for lag other instabilities
-					return spawnloc;
-
-				}
-
-				y++;
-
-				spawnloc.setY(y);
-				blocktype = spawnloc.getBlock().getType();
-
-			}
-
-			counter++;
-
-		}
-
-		PvPTeleport.instance.getLogger().info("Tried over 1,000 times to find a suitable spawn, no result");
-		return null;
 
 	}
 
