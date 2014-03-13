@@ -3,7 +3,6 @@ package org.c4k3.PvPTeleport;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -68,7 +67,6 @@ public class EnchantmentBan implements Listener {
 		//Bukkit.getLogger().info("Clicked slot: " + event.getSlot() + " " + event.getSlotType() + " " + event.getAction() + " " + event.getCursor()); // For decoding the bukkit api
 		
 		if ( event.getSlotType() == InventoryType.SlotType.QUICKBAR || event.getSlotType() == InventoryType.SlotType.ARMOR ) {
-			Bukkit.getLogger().info("Clicked dangerous slot");
 			
 			if ( !event.getCursor().getEnchantments().isEmpty() ) {
 				/* Again with the double negatives. This is now an illegal action.
@@ -100,9 +98,7 @@ public class EnchantmentBan implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL,ignoreCancelled=true)
 	public void onPlayerPickupItemEvent(PlayerPickupItemEvent event) {
 		/** Ensures that picked up items with enchantments are not put into the player's hotbar */
-		
-		Bukkit.getLogger().info("Pickup event");
-		
+				
 		if ( event.getItem().getItemStack().getEnchantments().isEmpty() ) return; // Ensures that this only acts upon enchanted items
 
 		final PlayerInventory inventory = event.getPlayer().getInventory();
