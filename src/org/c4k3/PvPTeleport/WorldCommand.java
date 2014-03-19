@@ -39,8 +39,6 @@ public class WorldCommand {
 
 					if ( !combatLogCheck(player)) {
 
-						//Location spawnloc = new Location(PvPTeleport.instance.getServer().getWorld("pvp"), 0, 64, 0);
-
 						if ( player.isInsideVehicle() ) player.leaveVehicle(); // Forces players out of vehicles
 
 						Location pLoc = player.getLocation();
@@ -63,7 +61,7 @@ public class WorldCommand {
 
 				else {
 					/* Inventory check failed */
-					player.sendMessage(ChatColor.RED + "Enchanted items are forbidden from use in the pvp world, therefore you are not permitted to enter the pvp world with any enchanted items in your armor slots or on your hotbar");
+					player.sendMessage(ChatColor.RED + "Enchanted items are forbidden from use in the pvp world. Please remove any enchanted items from your hotbar and armor slots, then try again.");
 					return true;
 				}
 
@@ -71,7 +69,7 @@ public class WorldCommand {
 
 			if ( sworld.equals("pvp") ) {
 
-				if ( !combatLogCheck(player)) {
+				if ( isInSpawn(player)) {
 
 					Location tloc = SQL.getPlayer(splayer);
 
@@ -87,7 +85,7 @@ public class WorldCommand {
 
 				} else {
 					/* combat log check failed */
-					player.sendMessage(ChatColor.RED + "You cannot use this command while within 50 blocks of any other players, or 5 blocks of any hostile mobs");
+					player.sendMessage(ChatColor.RED + "You must be inside the protected area to teleport back.");
 					return true;
 				}
 
@@ -137,6 +135,21 @@ public class WorldCommand {
 
 		return false;
 
+	}
+	
+	private static boolean isInSpawn(Player player) {
+		/** Checks whether player is inside spawn (of fixed size) */
+		
+		Location loc = player.getLocation();
+		
+		Double x = Math.abs(loc.getX());
+		
+		Double z = Math.abs(loc.getZ());
+		
+		if ( ( x <= 31 ) && ( z <= 31 ) ) return true;
+		
+		return false;
+		
 	}
 
 }
