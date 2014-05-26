@@ -4,15 +4,16 @@ import java.sql.ResultSet;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import lib.PatPeter.SQLibrary.SQLite;
 
 public class SQL {
 	
 	private static SQLite sqlite;
-	
+
+	/** Opens the SQL connection */
 	public static void sqlConnection() {
-		/** Opens the SQL connection */
 		
 		sqlite = new SQLite(PvPTeleport.instance.getLogger(),
 		"PvPWorld", // Database name
@@ -33,23 +34,32 @@ public class SQL {
 			PvPTeleport.instance.getLogger().info(e.getMessage());
 		}
 	}
-	
-	public static void putPlayer(String splayer, int x, int y, int z) {
-		/** Inserts the player's coordinates into the database */
-		sqlite.query("DELETE FROM playerlocs WHERE playername='" + splayer + "'");
-		sqlite.query("INSERT INTO playerlocs(playername, x, y, z) VALUES ('" + splayer + "', '" + x + "', '" + y + "', '" + z + "')");
+
+	/** Inserts the player's data into the database */
+	public static void putPlayer(Player player) {
+		
+		Location pLoc = player.getLocation();
+		int x = pLoc.getBlockX();
+		int y = pLoc.getBlockY();
+		int z = pLoc.getBlockZ();
+		String sPlayer = player.getName();
+		
+		/* This is easier... */
+		sqlite.query("DELETE FROM playerlocs WHERE playername='" + sPlayer + "'");
+		sqlite.query("INSERT INTO playerlocs(playername, x, y, z) VALUES ('" + sPlayer + "', '" + x + "', '" + y + "', '" + z + "')");
 	}
 	
+	/** Retrieves the player's location from the playerlocs table, and turns it into a Bukkit.Location
+	 * Returns null if it was unable to properly retrieve the location
+	 */
 	public static Location getPlayer(String splayer) {
-		/** Retrieves the player's location from the playerlocs table, and turns it into a Bukkit.Location
-		 * Returns null if it was unable to properly retrieve the location
-		 */
 		
 		ResultSet rs = null;
 		
 		try {
 			rs = sqlite.query("SELECT * FROM playerlocs WHERE playername = '" + splayer + "'");
 			while (rs.next()) {
+				
 				double x = rs.getDouble("x");
 				double y = rs.getDouble("y");
 				double z = rs.getDouble("z");
