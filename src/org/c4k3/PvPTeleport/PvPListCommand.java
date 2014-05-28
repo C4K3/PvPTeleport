@@ -27,7 +27,7 @@ public class PvPListCommand {
 
 		} else {
 			/* Sender is a player */
-			
+
 			for ( Player tPlayer : PvPTeleport.instance.getServer().getWorld("pvp").getPlayers()) {
 
 				if ( player.canSee(tPlayer)) { // Invisible admins shouldn't show up
