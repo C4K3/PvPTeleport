@@ -1,5 +1,7 @@
 package org.c4k3.PvPTeleport;
 
+import java.util.UUID;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -55,6 +57,7 @@ public class WorldCommand {
 		}
 
 		String sPlayer = player.getName();
+		UUID uuid = player.getUniqueId();
 
 		/* If the player using the command is in the overworld ("world"), then they should be sent to the spawn of the
 		 * pvp world, and their overworld coordinates shall be saved in the database */
@@ -73,7 +76,7 @@ public class WorldCommand {
 						+ ChatColor.RED + "\nYou are entering the pvp world with enchanted items. Please beware that enchanted items are "
 						+ "forbidden from use in the pvp world. You might lose them if you try to use them.");
 			}
-			
+
 			return true;
 
 		}
@@ -82,7 +85,7 @@ public class WorldCommand {
 		 * and they shall be teleoprted to that location in the overworld */
 		else if ( sWorld.equals("pvp") ) {
 
-			Location tLoc = SQL.getPlayer(sPlayer);
+			Location tLoc = SQL.getPlayer(uuid);
 
 			/* This will generally happen in the event an admin has teleported to the pvp world with a special admin command,
 			 * and is now trying to get back. */
@@ -118,8 +121,6 @@ public class WorldCommand {
 			Double x = Math.abs(pLoc.getX());
 
 			Double z = Math.abs(pLoc.getZ());
-
-			PvPTeleport.instance.getLogger().info(x + " " + z + " " + ( x <= 31 ) + " " + ( z <= 31 ) );
 
 			/* Since the spawn is square, if either the x or the z is higher than 31, the player must logically be outside the spawn */
 			if ( ( x >= 31 ) || ( z >= 31 ) ) {

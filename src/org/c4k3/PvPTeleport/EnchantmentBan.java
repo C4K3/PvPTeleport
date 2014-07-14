@@ -199,9 +199,12 @@ public class EnchantmentBan implements Listener {
 	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
 	public void onPlayerFishEvent(PlayerFishEvent event) {
 
-		PvPTeleport.instance.getLogger().info("PlayerFishEvent");
-
 		Player player = event.getPlayer();
+
+		/* Enchantments are only banned in the pvp world */
+		if ( !player.getWorld().getName().equals("pvp") ) {
+			return;
+		}
 
 		ItemStack itemInHand = player.getItemInHand();
 
