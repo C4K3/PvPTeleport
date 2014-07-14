@@ -1,16 +1,12 @@
 package org.c4k3.PvPTeleport;
 
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import lib.PatPeter.SQLibrary.SQLite;
-import lib.com.evilmidget38.UUIDFetcher;
 
 public class SQL {
 
@@ -28,59 +24,6 @@ public class SQL {
 
 			/* Checks if the playerlocs table already exists, if it does not, create it */
 			if ( sqlite.checkTable("playerlocs")) {
-				ResultSet rs = null;
-				int userVersion = 0;
-
-				rs = sqlite.query("PRAGMA user_version;");
-
-				while ( rs.next() ) {
-					userVersion = rs.getInt("user_version");
-				}
-
-				if ( userVersion == 0 ) {
-
-					PvPTeleport.instance.getLogger().info("Detected that this database does not use UUIDs yet, beginning conversion ...");
-
-					/* Update database */
-					sqlite.query("ALTER TABLE playerlocs ADD uuid BLOB;");
-					sqlite.query("PRAGMA user_version = 1;");
-
-					sqlite.query("DELETE FROM playerlocs WHERE playername='0';");
-
-					rs = sqlite.query("SELECT * FROM playerlocs");
-
-					/* Create a list of players to get the UUIDs of */
-					List<String> players = new ArrayList<String>();
-
-					while ( rs.next() ) {
-						players.add(rs.getString("playername"));
-					}
-
-					/* then we get the UUIDs */
-					UUIDFetcher fetcher = new UUIDFetcher(players);
-					Map<String, UUID> uuids = null;
-					uuids = fetcher.call();
-
-					/* Then we add the playernames */
-					for ( String player : players ) {
-						UUID uuid = uuids.get(player);
-
-						sqlite.query("UPDATE playerlocs SET uuid='" + uuid + "' WHERE playername='" + player + "';");
-
-					}
-
-					/* Drop column playername. SQLite doesn't have ALTER TABLE DROP COLUMN so this workaround must be used */
-					sqlite.query("CREATE TEMPORARY TABLE backup(uuid, x, y, z);"
-							+ "INSERT INTO backup SELECT uuid,x,y,z FROM playerlocs;"
-							+ "DROP TABLE playerlocs;"
-							+ "CREATE TABLE playerlocs(uuid BLOB, x DOUBLE, y DOUBLE, z DOUBLE);"
-							+ "INSERT INTO playerlocs(uuid, x, y, z) SELECT uuid,x,y,z FROM backup;"
-							+ "DROP TABLE backup;");
-
-					PvPTeleport.instance.getLogger().info("All done with database name -> UUID conversion. Enjoy!");
-
-				}
-
 				return;
 			} else {
 				sqlite.query("CREATE TABLE playerlocs (id INT PRIMARY KEY, uuid BLOB, x DOUBLE, y DOUBLE, z DOUBLE);");
