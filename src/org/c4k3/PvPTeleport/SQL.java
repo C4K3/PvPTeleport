@@ -73,7 +73,7 @@ public class SQL {
 		finally {
 			try {
 				rs.close();
-				sqlite.query("DELETE FROM playerlocs WHERE playername='" + uuid + "'");
+				sqlite.query("DELETE FROM playerlocs WHERE uuid='" + uuid + "'");
 			}
 			catch (Exception e) {
 				e.printStackTrace();
