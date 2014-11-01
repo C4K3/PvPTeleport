@@ -44,7 +44,8 @@ public class TeleportBack {
 		player.sendMessage(ChatColor.GOLD + "Teleporting you back to your saved location in the overworld.");
 		PvPTeleport.instance.getLogger().info("Teleporting " + sPlayer + " back to " + loc.getBlockX() + " " + loc.getBlockY() + " " + loc.getBlockZ());
 
-		SQLite.worldLocsRemove(uuid);
+		if ( player.getWorld().getName().equals("world") )
+			SQLite.worldLocsRemove(uuid);
 
 	}
 

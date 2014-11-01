@@ -73,8 +73,6 @@ public class DeathbanTransportation {
 
 			PvPTeleport.instance.getLogger().info("Teleporting " + player.getName() + " to their saved location in the deathban world.");
 
-			SQLite.deathBanLocsRemove(uuid);
-
 		}
 
 		/* If player is already dead */
