@@ -1,10 +1,11 @@
 package org.c4k3.PvPTeleport;
 
-import java.util.UUID;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Blaze;
 import org.bukkit.entity.CaveSpider;
 import org.bukkit.entity.Creeper;
@@ -21,13 +22,22 @@ import org.bukkit.entity.Spider;
 import org.bukkit.entity.Witch;
 import org.bukkit.entity.Zombie;
 
-public class WorldCommand {
+/**
+ * This class handles the /world command. It runs the required checks that the player can run the command,
+ * and then it passes it on to the relevant method in PvPTransportation.
+ */
+public class WorldCommand implements CommandExecutor {
 
 	/** Teleports player to a random location in the pvp world
 	 * Returns true if it was properly handled (teleport successful, or player was deteremined ineligible for teleport)
 	 * Returns false if it failed
 	 */
-	public static boolean main(Player player) {
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+
+		Player player = null;
+		if (sender instanceof Player){
+			player = (Player) sender;
+		}
 
 		/* Checks that sender is a player and not console */
 		if ( player == null ) {
@@ -51,57 +61,22 @@ public class WorldCommand {
 			return true;
 		}
 
-		/* Teleporting will glitch if a player is inside a vehicle */
-		if ( player.isInsideVehicle() ) {
-			player.leaveVehicle();
-		}
-
-		String sPlayer = player.getName();
-		UUID uuid = player.getUniqueId();
-
-		/* If the player using the command is in the overworld ("world"), then they should be sent to the spawn of the
-		 * pvp world, and their overworld coordinates shall be saved in the database */
 		if ( sWorld.equals("world") ) {
 
-			SQL.putPlayer(player);
-
-			player.teleport(PvPTeleport.instance.getServer().getWorld("pvp").getSpawnLocation());
-			player.sendMessage(ChatColor.GOLD + "Teleporting you to the pvp world.");
-			PvPTeleport.instance.getLogger().info("Teleporting " + sPlayer + " to the pvp world.");
-
-			/* Warn players if they've got any enchanted items on their hotspot or armor slots */
-			if ( EnchantmentBan.TeleportCheck(player) ) {
-				player.sendMessage(" " + ChatColor.RED + "" + ChatColor.ITALIC  + ChatColor.UNDERLINE + ChatColor.BOLD + "Attention!"
-						+ ChatColor.RESET + "\n "
-						+ ChatColor.RED + "\nYou are entering the pvp world with enchanted items. Please beware that enchanted items are "
-						+ "forbidden from use in the pvp world. You might lose them if you try to use them.");
-			}
+			PvPTransportation.teleportToPvP(player);
 
 			return true;
 
 		}
 
-		/* If the person using the command is in the pvp world, then their location shall be retrieved from the database
-		 * and they shall be teleoprted to that location in the overworld */
+		/* If the person using the command is in the pvp world, then they shall be teleport back to the pvp world. */
 		else if ( sWorld.equals("pvp") ) {
 
-			Location tLoc = SQL.getPlayer(uuid);
-
-			/* This will generally happen in the event an admin has teleported to the pvp world with a special admin command,
-			 * and is now trying to get back. */
-			if ( tLoc == null ) {
-				return false;
-			}
-
-			player.teleport(tLoc);
-			player.sendMessage(ChatColor.GOLD + "Teleporting you back to your saved location in the overworld.");
-			PvPTeleport.instance.getLogger().info("Teleporting " + sPlayer + " back to " + tLoc.getBlockX() + " " + tLoc.getBlockY() + " " + tLoc.getBlockZ());
-
-			return true;
+			TeleportBack.teleportBack(player);
 
 		}
 
-		return false;
+		return true;
 
 	}
 

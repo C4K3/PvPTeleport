@@ -1,58 +1,84 @@
 package org.c4k3.PvPTeleport;
 
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class PvPListCommand {
+public class PvPListCommand implements CommandExecutor {
 
 	/** Print a list of players in the pvp world to the sender. Simple as that! */
-	public static boolean main(Player player) {
-		int counter = 0;
-		String list = " ";
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-		if ( player == null ) {
-			/* Sender is not an ingame player, but they still might want to see a list of players */
+		Player player = null;
+		if (sender instanceof Player){
+			player = (Player) sender;
+		}
 
-			for ( Player tPlayer : PvPTeleport.instance.getServer().getWorld("pvp").getPlayers()) {
+		/* Hacky workaround for only showing colors to players and not to console */
+		String gold = "";
+		String green = "";
+		String white = "";
+		String darkAqua = "";
 
-				counter++;
+		if ( player != null ) {
+			/* Only add colors if it's a player and not console */
 
-				list = list + tPlayer.getName() + ", ";
+			gold += ChatColor.GOLD;
+			green += ChatColor.GREEN;
+			white += ChatColor.WHITE;
+			darkAqua += ChatColor.DARK_AQUA;
+
+		} 
+
+		int pvpCounter = 0;
+		int deathbanCounter = 0;
+		String pvpList = " ";
+		String deathbanList = " ";
+
+		for ( Player tPlayer : PvPTeleport.instance.getServer().getWorld("pvp").getPlayers() ) {
+
+			if ( player == null || player.canSee(tPlayer) ) {
+
+				pvpCounter++;
+				pvpList += gold + tPlayer.getName() + ChatColor.WHITE + ", ";
 
 			}
-
-			if ( counter > 0 ) list = list.substring(0, list.length() - 2) + "";
-
-			PvPTeleport.instance.getLogger().info(counter + " players: " + list);
-
-		} else {
-			/* Sender is a player */
-
-			for ( Player tPlayer : PvPTeleport.instance.getServer().getWorld("pvp").getPlayers()) {
-
-				if ( player.canSee(tPlayer)) { // Invisible admins shouldn't show up
-
-					counter++;
-
-					list = list + ChatColor.GOLD + tPlayer.getName() + ChatColor.WHITE + ", ";
-
-				}
-
-			}
-
-			if ( counter > 0 ) list = list.substring(0, list.length() - 2) + ""; // Remove the two trailing characters ( , and the space )
-
-			/* English grammar can be annoying (player versus players) */
-			if ( counter == 1 ) player.sendMessage(ChatColor.GREEN + " There is currently " + ChatColor.GOLD + '1' + ChatColor.GREEN + " player in the PvP world"); // English grammar is stupid
-			else player.sendMessage(ChatColor.GREEN + " There are currently " + ChatColor.GOLD + counter + ChatColor.GREEN + " players in the PvP world");
-
-			/* If 1 or more players are in the pvp world, send the list of these players. Obv. don't send if there are 0 players */
-			if ( counter > 0 ) player.sendMessage(list);
 
 		}
 
-		return true;
+		for ( Player tPlayer : PvPTeleport.instance.getServer().getWorld("deathban").getPlayers()) {
 
+			if ( player == null || player.canSee(tPlayer) ) {
+
+				deathbanCounter++;
+				deathbanList += gold + tPlayer.getName() + white + ", ";
+
+			}
+
+		}
+
+		if ( pvpCounter > 0 ) pvpList = pvpList.substring(0, pvpList.length() - 2); // Remove the two trailing characters ( , and the space )
+		if ( deathbanCounter > 0 ) deathbanList = deathbanList.substring(0, deathbanList.length() - 2);
+
+		String message = "";
+
+		if ( pvpCounter == 1 ) message += green + " There is currently " + gold + "1" + green + " player in the PvP world."; // English grammar is stupid.
+		else message += green + " There are currently " + gold + pvpCounter + green + " players in the PvP world.";
+		if ( pvpCounter > 0 ) message += "\n " + pvpList;
+
+		if ( deathbanCounter == 1 ) message += darkAqua + "\n There is currently " + gold + "1" + darkAqua + " player in the deathban world.";
+		else message += darkAqua + "\n There are currently " + gold + deathbanCounter + darkAqua + " players in the deathban world.";
+		if ( deathbanCounter > 0 ) message += "\n " + deathbanList;
+
+		if ( player == null ) {
+			PvPTeleport.instance.getLogger().info(message);
+		} else {
+			player.sendMessage(message);
+		}
+
+		return true;
 
 	}
 

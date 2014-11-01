@@ -1,11 +1,14 @@
 name: PvPTeleport
 main: org.c4k3.PvPTeleport.PvPTeleport
 version: 1.5 #Bukkit 1.7.9 1938
-depend: [MultiWorld]
+depend: [MultiWorld, MultiInv]
 commands:
   world:
-    description: Teleports player between overworld and pvp world
-    usage: Error. Please report at http://simpvp.net/forum
+    description: Teleports player between overworld and pvp world.
+    usage: Error. Please report at https://github.com/C4K3/PvPTeleport
   pvplist:
-    description: Lists all players in the pvp world
-    usage: Error. Please report at http://simpvp.net/forum
+    description: Lists all players in the pvp world and deathban world.
+    usage: Error. Please report at https://github.com/C4K3/PvPTeleport
+  deathban:
+    description: Teleports player between deathban world and pvp world.
+    usage: Error. Please report at https://github.com/C4K3/PvPTeleport
