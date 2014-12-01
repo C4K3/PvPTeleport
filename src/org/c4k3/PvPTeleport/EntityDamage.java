@@ -1,5 +1,7 @@
 package org.c4k3.PvPTeleport;
 
+import java.util.UUID;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -33,7 +35,18 @@ public class EntityDamage implements Listener {
 
 		event.setCancelled(true);
 
-		SQLite.deathBanSetStatus(player.getUniqueId(), 1);
+		UUID uuid = player.getUniqueId();
+
+		SQLite.deathBanSetStatus(uuid, 1);
+
+		UUID killer = DeathbanScoreTracker.lastAttackerGet(uuid);
+		if ( killer != null ) {
+			SQLite.deathBanIncrementPoints(killer);
+		}
+
+		for ( Player p : PvPTeleport.instance.getServer().getWorld("deathban").getPlayers() ) {
+			p.sendMessage(ChatColor.DARK_GREEN + player.getName() + " has been slain.");
+		}
 
 		player.sendMessage(ChatColor.RED + "You have died, and so will not be able to play in the deathban world until the end of this round.");
 

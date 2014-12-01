@@ -1,7 +1,7 @@
 name: PvPTeleport
 main: org.c4k3.PvPTeleport.PvPTeleport
-version: 1.5 #Bukkit 1.7.9 1938
-depend: [MultiWorld, MultiInv]
+version: 1.6 #Bukkit 1.7.9 1938
+depend: [MultiWorld]
 commands:
   world:
     description: Teleports player between overworld and pvp world.

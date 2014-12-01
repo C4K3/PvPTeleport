@@ -18,8 +18,10 @@ public class PvPTeleport extends JavaPlugin {
 		}
 
 		getServer().getPluginManager().registerEvents(new EnchantmentBan(), this);
-		getServer().getPluginManager().registerEvents(new PlayerDisconnect(), this);
+		getServer().getPluginManager().registerEvents(new PlayerQuit(), this);
 		getServer().getPluginManager().registerEvents(new EntityDamage(), this);
+		getServer().getPluginManager().registerEvents(new DeathbanScoreTracker(), this);
+		getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
 		getCommand("world").setExecutor(new WorldCommand());
 		getCommand("pvplist").setExecutor(new PvPListCommand());
 		getCommand("deathban").setExecutor(new DeathbanCommand());

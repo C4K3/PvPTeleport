@@ -90,24 +90,6 @@ public class WorldCommand implements CommandExecutor {
 
 		World world = player.getWorld();
 
-		/* In the pvp world, a player just has to be inside spawn to be allowed to teleport */
-		if ( world.getName().equals("pvp") ) {
-
-			Double x = Math.abs(pLoc.getX());
-
-			Double z = Math.abs(pLoc.getZ());
-
-			/* Since the spawn is square, if either the x or the z is higher than 31, the player must logically be outside the spawn */
-			if ( ( x >= 31 ) || ( z >= 31 ) ) {
-				return ChatColor.RED + "You must be inside the protected area to teleport back.\n"
-						+ "(x = 0, z = 0.)";
-			}
-
-			else return null;
-
-		}
-		/* In all other worlds, players are considered safe if they are more than 50 blocks from any players, or 5 blocks from any mobs */
-
 		/* Check if there are any players within 50 blocks */
 		for ( Player p : world.getPlayers() ) {
 

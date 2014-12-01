@@ -9,9 +9,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 /**
  * Teleports players logging out of the deathban world back to their location in the overworld.
  */
-public class PlayerDisconnect implements Listener {
+public class PlayerQuit implements Listener {
 
-	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+	@EventHandler(priority=EventPriority.LOWEST, ignoreCancelled=true)
 	public void onPlayerQuitEvent(PlayerQuitEvent event) {
 
 		Player player = event.getPlayer();

@@ -31,6 +31,7 @@ public class TeleportBack {
 
 		if ( player.getWorld().getName().equals("deathban") ) {
 			SQLite.deathBanLocsInsert(player);
+			DeathbanScoreTracker.lastAttackerRemove(uuid);
 		}
 
 		/* Teleporting will glitch if a player is inside a vehicle */
