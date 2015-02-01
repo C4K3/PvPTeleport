@@ -60,6 +60,7 @@ public class SQLite {
 				st.executeUpdate(query);
 				query = "PRAGMA user_version = 1;";
 				st.executeUpdate(query);
+				break;
 			}
 
 			}
