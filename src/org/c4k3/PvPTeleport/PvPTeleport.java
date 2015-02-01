@@ -17,7 +17,6 @@ public class PvPTeleport extends JavaPlugin {
 			dir.mkdir();
 		}
 
-		getServer().getPluginManager().registerEvents(new EnchantmentBan(), this);
 		getServer().getPluginManager().registerEvents(new PlayerQuit(), this);
 		getServer().getPluginManager().registerEvents(new EntityDamage(), this);
 		getServer().getPluginManager().registerEvents(new DeathbanScoreTracker(), this);

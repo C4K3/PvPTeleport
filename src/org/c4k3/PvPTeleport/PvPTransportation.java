@@ -44,14 +44,6 @@ public class PvPTransportation {
 		player.sendMessage(ChatColor.GOLD + "Teleporting you to a random location in the pvp world.");
 		PvPTeleport.instance.getLogger().info("Teleporting " + sPlayer + " to the pvp world.");
 
-		/* Warn players if they've got any enchanted items on their hotspot or armor slots */
-		if ( EnchantmentBan.TeleportCheck(player) ) {
-			player.sendMessage(" " + ChatColor.RED + "" + ChatColor.ITALIC  + ChatColor.UNDERLINE + ChatColor.BOLD + "Attention!"
-					+ ChatColor.RESET + "\n "
-					+ ChatColor.RED + "\nYou are entering the pvp world with enchanted items. Please beware that enchanted items are "
-					+ "forbidden from use in the pvp world. You might lose them if you try to use them.");
-		}
-
 	}
 
 	/**
