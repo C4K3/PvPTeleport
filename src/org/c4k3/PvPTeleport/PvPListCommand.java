@@ -60,17 +60,12 @@ public class PvPListCommand implements CommandExecutor {
 		}
 
 		if ( pvpCounter > 0 ) pvpList = pvpList.substring(0, pvpList.length() - 2); // Remove the two trailing characters ( , and the space )
-		if ( deathbanCounter > 0 ) deathbanList = deathbanList.substring(0, deathbanList.length() - 2);
 
 		String message = "";
 
 		if ( pvpCounter == 1 ) message += green + " There is currently " + gold + "1" + green + " player in the PvP world."; // English grammar is stupid.
 		else message += green + " There are currently " + gold + pvpCounter + green + " players in the PvP world.";
 		if ( pvpCounter > 0 ) message += "\n " + pvpList;
-
-		if ( deathbanCounter == 1 ) message += darkAqua + "\n There is currently " + gold + "1" + darkAqua + " player in the deathban world.";
-		else message += darkAqua + "\n There are currently " + gold + deathbanCounter + darkAqua + " players in the deathban world.";
-		if ( deathbanCounter > 0 ) message += "\n " + deathbanList;
 
 		if ( player == null ) {
 			PvPTeleport.instance.getLogger().info(message);
