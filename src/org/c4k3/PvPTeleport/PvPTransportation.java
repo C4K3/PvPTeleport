@@ -81,8 +81,8 @@ public class PvPTransportation {
 		while ( counter < 1000 ) {
 
 			Double y = 60.0;
-			Double x = (double) randomGenerator.nextInt(599) - 299.5;
-			Double z = (double) randomGenerator.nextInt(599) - 299.5;
+			Double x = (double) randomGenerator.nextInt(450) - 225.5;
+			Double z = (double) randomGenerator.nextInt(450) - 225.5;
 
 			spawnLoc.setX(x);
 			spawnLoc.setY(y);
