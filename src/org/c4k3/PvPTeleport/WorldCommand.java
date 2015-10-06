@@ -21,6 +21,7 @@ import org.bukkit.entity.Slime;
 import org.bukkit.entity.Spider;
 import org.bukkit.entity.Witch;
 import org.bukkit.entity.Zombie;
+import org.bukkit.potion.PotionEffectType;
 
 /**
  * This class handles the /world command. It runs the required checks that the player can run the command,
