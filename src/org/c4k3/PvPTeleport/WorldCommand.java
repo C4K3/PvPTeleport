@@ -104,6 +104,14 @@ public class WorldCommand implements CommandExecutor {
 			if ( entity.getLocation().distance(pLoc) < 5 ) return ChatColor.RED + "You cannot use this command while within 5 blocks of any hostile mobs.";
 
 		}
+		
+		/* Check if the player is falling */
+		if ( player.getVelocity().getY() < - 0.079 || player.getVelocity().getY() > 0.08 )
+			return ChatColor.RED + "You cannot use this command while falling.";
+			
+		/* Check if the player is burning */
+		if ( player.getFireTicks() > 0 && !player.hasPotionEffect(PotionEffectType.FIRE_RESISTANCE) ) 
+			return ChatColor.RED + "You cannot use this command while on fire.";
 
 		/* Default to allow teleport */
 		return null;
