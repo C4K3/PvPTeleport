@@ -46,12 +46,14 @@ public class SQLite {
 						+ "x INT,"
 						+ "y INT,"
 						+ "z INT);"
+
 						+ "CREATE TABLE deathbanlocs" // Player locations in the deathban world. Used when players teleport out of deathban world.
 						+ "(id INTEGER PRIMARY KEY AUTOINCREMENT,"
 						+ "uuid BLOB,"
 						+ "x INT,"
 						+ "y INT,"
 						+ "z INT);"
+
 						+ "CREATE TABLE deathbandata" // Data for each player in the current deathban tournament.
 						+ "(id INTEGER PRIMARY KEY AUTOINCREMENT,"
 						+ "uuid BLOB,"
