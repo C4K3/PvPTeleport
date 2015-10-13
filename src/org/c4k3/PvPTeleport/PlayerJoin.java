@@ -16,7 +16,7 @@ public class PlayerJoin implements Listener {
 		if (!player.getWorld().getName().equals("deathban"))
 			return;
 
-		TeleportBack.teleportBack(player);
+		TeleportToWorld.teleportBack(player);
 	}
 
 }

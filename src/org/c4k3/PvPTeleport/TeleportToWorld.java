@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 /**
  * Handles teleporting the player back to the overworld from either 'pvp' or 'deathban'.
  */
-public class TeleportBack {
+public class TeleportToWorld {
 
 	/**
 	 * Teleports the given player back to their location in the overworld.

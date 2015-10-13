@@ -35,7 +35,7 @@ public class DeathbanCommand implements CommandExecutor {
 		if (sWorld.equals("world")) {
 			DeathbanTransportation.teleportToDeathban(player);
 		} else if (sWorld.equals("deathban")) {
-			TeleportBack.teleportBack(player);
+			TeleportToWorld.teleportBack(player);
 		}
 
 		return true;

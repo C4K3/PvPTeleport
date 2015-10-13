@@ -63,12 +63,12 @@ public class WorldCommand implements CommandExecutor {
 		}
 
 		if (sWorld.equals("world")) {
-			PvPTransportation.teleportToPvP(player);
+			TeleportFromWorld.teleportToPvP(player);
 			return true;
 
 		} else if (sWorld.equals("pvp") ) {
 			/* If the person using the command is in the pvp world, then they shall be teleport back to the pvp world. */
-			TeleportBack.teleportBack(player);
+			TeleportToWorld.teleportBack(player);
 		}
 
 		return true;

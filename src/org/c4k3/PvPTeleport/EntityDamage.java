@@ -50,7 +50,7 @@ public class EntityDamage implements Listener {
 
 		player.sendMessage(ChatColor.RED + "You have died, and so will not be able to play in the deathban world until the end of this round.");
 
-		TeleportBack.teleportBack(player);
+		TeleportToWorld.teleportBack(player);
 
 	}
 
