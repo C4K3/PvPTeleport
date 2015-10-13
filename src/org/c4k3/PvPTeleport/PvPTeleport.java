@@ -13,7 +13,7 @@ public class PvPTeleport extends JavaPlugin {
 
 		/* Check if this plugin's directory exists, if not create it */
 		File dir = new File("plugins/PvPTeleport");
-		if ( !dir.exists() ) {
+		if (!dir.exists()) {
 			dir.mkdir();
 		}
 

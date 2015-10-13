@@ -23,7 +23,7 @@ public class PvPTransportation {
 		Location loc = randomSpawn();
 
 		/* If unable to get random spawn location */
-		if ( loc == null ) {
+		if (loc == null) {
 			player.sendMessage(ChatColor.RED + "Unable to get a spawn location for you.\n"
 					+ "Please try again.\n"
 					+ "If this problem persists, please contact an admin for assistance.");
@@ -34,7 +34,7 @@ public class PvPTransportation {
 		String sPlayer = player.getName();
 
 		/* Teleporting will glitch if a player is inside a vehicle */
-		if ( player.isInsideVehicle() ) {
+		if (player.isInsideVehicle()) {
 			player.leaveVehicle();
 		}
 
@@ -113,7 +113,6 @@ public class PvPTransportation {
 
 					PvPTeleport.instance.getLogger().info("Found valid pvp world spawn location on attempt " + counter + ".");
 					return spawnLoc;
-
 				}
 
 				/* Increment y by one, to test that location */

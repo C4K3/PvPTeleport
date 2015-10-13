@@ -95,7 +95,6 @@ public class SQLite {
 	public static void worldLocsInsert(Player player) {
 
 		try {
-
 			Statement st = conn.createStatement();
 
 			Location pLoc = player.getLocation();
@@ -127,7 +126,6 @@ public class SQLite {
 		Location loc = null;
 
 		try {
-
 			Statement st = conn.createStatement();
 
 			ResultSet rs = st.executeQuery("SELECT * FROM worldlocs WHERE uuid = '" + uuid + "'");
@@ -137,7 +135,6 @@ public class SQLite {
 				double y = rs.getDouble("y");
 				double z = rs.getDouble("z") + 0.5;
 				loc = new Location(PvPTeleport.instance.getServer().getWorld("world"), x, y, z);
-
 			}
 
 			rs.close();
@@ -158,7 +155,6 @@ public class SQLite {
 	public static void worldLocsRemove(UUID uuid) {
 
 		try {
-
 			Statement st = conn.createStatement();
 
 			st.executeUpdate("DELETE FROM worldlocs WHERE uuid='" + uuid + "';");
@@ -176,7 +172,6 @@ public class SQLite {
 	public static void deathBanLocsInsert(Player player) {
 
 		try {
-
 			Statement st = conn.createStatement();
 
 			Location pLoc = player.getLocation();
@@ -204,7 +199,6 @@ public class SQLite {
 	public static void deathBanLocsRemove(UUID uuid) {
 
 		try {
-
 			Statement st = conn.createStatement();
 
 			String query = "DELETE FROM deathbanlocs WHERE uuid='" + uuid + "';";
@@ -228,7 +222,6 @@ public class SQLite {
 		Location loc = null;
 
 		try {
-
 			Statement st = conn.createStatement();
 
 			ResultSet rs = st.executeQuery("SELECT * FROM deathbanlocs WHERE uuid = '" + uuid + "'");
@@ -238,7 +231,6 @@ public class SQLite {
 				double y = rs.getDouble("y");
 				double z = rs.getDouble("z") + 0.5;
 				loc = new Location(PvPTeleport.instance.getServer().getWorld("deathban"), x, y, z);
-
 			}
 
 			rs.close();
@@ -262,7 +254,6 @@ public class SQLite {
 		int points = -1;
 
 		try {
-
 			Statement st = conn.createStatement();
 
 			String query = "SELECT * FROM deathbandata WHERE uuid ='" + uuid + "';";
@@ -290,7 +281,6 @@ public class SQLite {
 	public static void deathBanDataInsert(UUID uuid) {
 
 		try {
-
 			Statement st = conn.createStatement();
 
 			String query = "INSERT INTO deathbandata(uuid, points, status) VALUES ('" + uuid + "', '0', '0');"; // Start as not dead with 0 points
@@ -311,7 +301,6 @@ public class SQLite {
 	public static void deathBanIncrementPoints(UUID uuid) {
 
 		try {
-
 			Statement st = conn.createStatement();
 
 			String query = "UPDATE deathbandata SET points = points + 1 WHERE uuid = '" + uuid + "';";
@@ -336,7 +325,6 @@ public class SQLite {
 		int status = -1;
 
 		try {
-
 			Statement st = conn.createStatement();
 
 			String query = "SELECT * FROM deathbandata WHERE uuid='" + uuid + "';";
@@ -365,7 +353,6 @@ public class SQLite {
 	public static void deathBanSetStatus(UUID uuid, int status) {
 
 		try {
-
 			Statement st = conn.createStatement();
 
 			String query = "UPDATE deathbandata SET status = '" + status + "' WHERE uuid='" + uuid + "';";

@@ -19,17 +19,17 @@ public class EntityDamage implements Listener {
 	@EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled=true)
 	public void onEntityDamageEvent(EntityDamageEvent event) {
 
-		if ( event.getEntity().getType() != EntityType.PLAYER ) {
+		if (event.getEntity().getType() != EntityType.PLAYER) {
 			return;
 		}
 
 		Player player = (Player) event.getEntity();
 
-		if ( !player.getLocation().getWorld().getName().equals("deathban") ) {
+		if (!player.getLocation().getWorld().getName().equals("deathban")) {
 			return;
 		}
 
-		if ( (player.getHealth() - event.getDamage()) > 0 ) {
+		if ((player.getHealth() - event.getDamage()) > 0) {
 			return;
 		}
 
@@ -40,11 +40,11 @@ public class EntityDamage implements Listener {
 		SQLite.deathBanSetStatus(uuid, 1);
 
 		UUID killer = DeathbanScoreTracker.lastAttackerGet(uuid);
-		if ( killer != null ) {
+		if (killer != null) {
 			SQLite.deathBanIncrementPoints(killer);
 		}
 
-		for ( Player p : PvPTeleport.instance.getServer().getWorld("deathban").getPlayers() ) {
+		for (Player p : PvPTeleport.instance.getServer().getWorld("deathban").getPlayers()) {
 			p.sendMessage(ChatColor.DARK_GREEN + player.getName() + " has been slain.");
 		}
 

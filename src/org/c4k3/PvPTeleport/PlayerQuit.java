@@ -16,7 +16,7 @@ public class PlayerQuit implements Listener {
 
 		Player player = event.getPlayer();
 
-		if ( player.getWorld().getName().equals("deathban" ) ) {
+		if (player.getWorld().getName().equals("deathban")) {
 			TeleportBack.teleportBack(player);
 		}
 

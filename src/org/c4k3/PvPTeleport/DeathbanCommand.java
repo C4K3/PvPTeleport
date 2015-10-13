@@ -18,7 +18,7 @@ public class DeathbanCommand implements CommandExecutor {
 			player = (Player) sender;
 		}
 
-		if ( player == null ) {
+		if (player == null) {
 			PvPTeleport.instance.getLogger().info("Only players can use this command.");
 			return true;
 		}
@@ -26,20 +26,16 @@ public class DeathbanCommand implements CommandExecutor {
 		String sWorld = player.getWorld().getName();
 
 		/* This command can only be used to teleport between the overworld ("world") and the deathban world */
-		if ( !sWorld.equals("world") && !sWorld.equals("deathban") ) {
+		if (!sWorld.equals("world") && !sWorld.equals("deathban")) {
 			player.sendMessage(ChatColor.RED + "You must be in the overworld to use this command.");
 			return true;
 		}
 
 		/* If player is in the overworld and is teleporting to the deathban world */
-		if ( sWorld.equals("world") ) {
-
+		if (sWorld.equals("world")) {
 			DeathbanTransportation.teleportToDeathban(player);
-
-		} else if ( sWorld.equals("deathban") ) {
-
+		} else if (sWorld.equals("deathban")) {
 			TeleportBack.teleportBack(player);
-
 		}
 
 		return true;

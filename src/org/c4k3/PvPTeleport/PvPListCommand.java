@@ -22,14 +22,13 @@ public class PvPListCommand implements CommandExecutor {
 		String white = "";
 		String darkAqua = "";
 
-		if ( player != null ) {
+		if (player != null) {
 			/* Only add colors if it's a player and not console */
 
 			gold += ChatColor.GOLD;
 			green += ChatColor.GREEN;
 			white += ChatColor.WHITE;
 			darkAqua += ChatColor.DARK_AQUA;
-
 		} 
 
 		int pvpCounter = 0;
@@ -37,37 +36,30 @@ public class PvPListCommand implements CommandExecutor {
 		String pvpList = " ";
 		String deathbanList = " ";
 
-		for ( Player tPlayer : PvPTeleport.instance.getServer().getWorld("pvp").getPlayers() ) {
-
-			if ( player == null || player.canSee(tPlayer) ) {
-
+		for (Player tPlayer : PvPTeleport.instance.getServer().getWorld("pvp").getPlayers()) {
+			if (player == null || player.canSee(tPlayer)) {
 				pvpCounter++;
 				pvpList += gold + tPlayer.getName() + ChatColor.WHITE + ", ";
-
 			}
-
 		}
 
-		for ( Player tPlayer : PvPTeleport.instance.getServer().getWorld("deathban").getPlayers()) {
+		for (Player tPlayer : PvPTeleport.instance.getServer().getWorld("deathban").getPlayers()) {
 
-			if ( player == null || player.canSee(tPlayer) ) {
-
+			if (player == null || player.canSee(tPlayer)) {
 				deathbanCounter++;
 				deathbanList += gold + tPlayer.getName() + white + ", ";
-
 			}
-
 		}
 
-		if ( pvpCounter > 0 ) pvpList = pvpList.substring(0, pvpList.length() - 2); // Remove the two trailing characters ( , and the space )
+		if (pvpCounter > 0) pvpList = pvpList.substring(0, pvpList.length() - 2); // Remove the two trailing characters ( , and the space )
 
 		String message = "";
 
-		if ( pvpCounter == 1 ) message += green + " There is currently " + gold + "1" + green + " player in the PvP world."; // English grammar is stupid.
+		if (pvpCounter == 1) message += green + " There is currently " + gold + "1" + green + " player in the PvP world."; // English grammar is stupid.
 		else message += green + " There are currently " + gold + pvpCounter + green + " players in the PvP world.";
-		if ( pvpCounter > 0 ) message += "\n " + pvpList;
+		if (pvpCounter > 0) message += "\n " + pvpList;
 
-		if ( player == null ) {
+		if (player == null) {
 			PvPTeleport.instance.getLogger().info(message);
 		} else {
 			player.sendMessage(message);
@@ -76,5 +68,4 @@ public class PvPListCommand implements CommandExecutor {
 		return true;
 
 	}
-
 }

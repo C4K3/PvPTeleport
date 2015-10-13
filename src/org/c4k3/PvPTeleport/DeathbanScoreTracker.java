@@ -18,26 +18,25 @@ public class DeathbanScoreTracker implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled=true)
 	public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent event) {
 
-		if ( !event.getEntity().getWorld().getName().equals("deathban") )
+		if (!event.getEntity().getWorld().getName().equals("deathban"))
 			return;
 
-		if ( event.getEntity().getType() != EntityType.PLAYER )
+		if (event.getEntity().getType() != EntityType.PLAYER)
 			return; // damaged is not player
 
-		if ( event.getDamager().getType() != EntityType.PLAYER && event.getDamager().getType() != EntityType.ARROW )
+		if (event.getDamager().getType() != EntityType.PLAYER && event.getDamager().getType() != EntityType.ARROW)
 			return; // damager cannot possibly be a player
 
 		Player damager;
 
 		/* if damager is arrow shot by player, damager = arrow's shooter */
-		if ( event.getDamager().getType() == EntityType.ARROW ) {
+		if (event.getDamager().getType() == EntityType.ARROW) {
 			Arrow arrow = (Arrow) event.getDamager();
 
-			if ( !(arrow.getShooter() instanceof Player) )
+			if (!(arrow.getShooter() instanceof Player))
 				return ;
 
 			damager = (Player) arrow.getShooter();
-
 		} else {
 			damager = (Player) event.getDamager();
 		}
@@ -45,11 +44,11 @@ public class DeathbanScoreTracker implements Listener {
 		lastAttacker.put(event.getEntity().getUniqueId(), damager.getUniqueId());
 
 	}
-	
+
 	public static void lastAttackerRemove(UUID uuid) {
 		lastAttacker.remove(uuid);
 	}
-	
+
 	public static UUID lastAttackerGet(UUID uuid) {
 		return lastAttacker.get(uuid);
 	}

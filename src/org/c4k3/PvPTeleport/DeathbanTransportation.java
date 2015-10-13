@@ -27,12 +27,12 @@ public class DeathbanTransportation {
 		int loginStatus = SQLite.deathBanGetStatus(uuid);
 
 		/* If joining first time, gets random spawn location. */
-		if ( loginStatus == -1 ) {
+		if (loginStatus == -1) {
 
 			Location loc = randomSpawn();
 
 			/* If unable to get random spawn location */
-			if ( loc == null ) {
+			if (loc == null) {
 				player.sendMessage(ChatColor.RED + "Unable to get a spawn location for you.\n"
 						+ "Please try again.\n"
 						+ "If this problem persists, please contact an admin for assistance.");
@@ -43,7 +43,7 @@ public class DeathbanTransportation {
 
 			SQLite.deathBanDataInsert(uuid);
 
-			if ( player.isInsideVehicle() ) player.leaveVehicle();
+			if (player.isInsideVehicle()) player.leaveVehicle();
 
 			player.teleport(loc);
 
@@ -52,18 +52,18 @@ public class DeathbanTransportation {
 		}
 
 		/* Is not joining first time. Gets their own saved location. */
-		else if ( loginStatus == 0 ) {
+		else if (loginStatus == 0) {
 
 			Location loc = SQLite.deathBanLocsGet(uuid);
 
 			/* If unable to get their location. */
-			if ( loc == null ) {
+			if (loc == null) {
 				player.sendMessage(ChatColor.RED + "Database error.\n"
 						+ "Please contact an admin for assistance.");
 				return;
 			}
 
-			if ( player.isInsideVehicle() ) player.leaveVehicle();
+			if (player.isInsideVehicle()) player.leaveVehicle();
 
 			SQLite.worldLocsInsert(player);
 
@@ -76,7 +76,7 @@ public class DeathbanTransportation {
 		}
 
 		/* If player is already dead */
-		else if ( loginStatus == 1 ){
+		else if (loginStatus == 1) {
 			player.sendMessage(ChatColor.RED + "You have already died this round.\n"
 					+ "You will not be able to enter until the next round begins.\n"
 					+ "New rounds begin every Sunday.");
@@ -117,7 +117,7 @@ public class DeathbanTransportation {
 		int counter = 0;
 
 		/* Only give it 1000 tries */
-		while ( counter < 1000 ) {
+		while (counter < 1000) {
 
 			Double y = 60.0;
 			Double x = (double) randomGenerator.nextInt(199) - 99.5;
@@ -131,7 +131,7 @@ public class DeathbanTransportation {
 
 			/* While the block at the given x and z coords is of one of the below types, we check if the two blocks above it are
 			 * empty blocks that would allow the player to teleport. */
-			while ( ( blocktype == Material.STONE
+			while (( blocktype == Material.STONE
 					|| blocktype == Material.GRASS
 					|| blocktype == Material.DIRT
 					|| blocktype == Material.COBBLESTONE
@@ -139,7 +139,7 @@ public class DeathbanTransportation {
 					|| blocktype == Material.STATIONARY_WATER
 					|| blocktype == Material.SAND
 					|| blocktype == Material.SANDSTONE
-					) && y <= 250 ) {
+					) && y <= 250) {
 
 				spawnLoc.setY(y + 1);
 				blocktype1 = spawnLoc.getBlock().getType();
@@ -148,11 +148,10 @@ public class DeathbanTransportation {
 				blocktype2 = spawnLoc.getBlock().getType();
 
 				/* If the two blocks above the y position are valid nonsolids, then we got a good location */
-				if ( Arrays.binarySearch(nonsolids, blocktype1) > -1 && Arrays.binarySearch(nonsolids, blocktype2) > -1 ) {
+				if (Arrays.binarySearch(nonsolids, blocktype1) > -1 && Arrays.binarySearch(nonsolids, blocktype2) > -1) {
 
 					PvPTeleport.instance.getLogger().info("Found valid deathban world spawn location on attempt " + counter + ".");
 					return spawnLoc;
-
 				}
 
 				/* Increment y by one, to test that location */
