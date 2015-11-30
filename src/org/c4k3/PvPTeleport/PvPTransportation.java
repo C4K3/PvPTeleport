@@ -66,23 +66,36 @@ public class PvPTransportation {
 		nonsolids[8] = Material.TORCH;
 		nonsolids[9] = Material.SIGN;
 		nonsolids[10] = Material.SIGN_POST;
+		
+		/* Array of materials the player is allowed to spawn on top of */
+		Material[] solids = new Material[9];
+		solids[0] = Material.STONE;
+		solids[1] = Material.GRASS;
+		solids[2] = Material.DIRT;
+		solids[3] = Material.COBBLESTONE;
+		solids[4] = Material.BEDROCK;
+		solids[5] = Material.WATER;
+		solids[6] = Material.STATIONARY_WATER;
+		solids[7] = Material.SAND;
+		solids[8] = Material.SANDSTONE;
 
 		Random randomGenerator = new Random();
 
 		Material blocktype = null;
-		Material blocktype1 = null;
-		Material blocktype2 = null;
-
 		Location spawnLoc = new Location(PvPTeleport.instance.getServer().getWorld("pvp"), 0, 0, 0);
 
-		int counter = 0;
+		/* Only give it 1 000 tries */
+		for (int counter = 0; counter < 1000; counter++) {
 
-		/* Only give it 1000 tries */
-		while ( counter < 1000 ) {
-
-			Double y = 60.0;
+			Double y = 255.0;
 			Double x = (double) randomGenerator.nextInt(450) - 225.5;
 			Double z = (double) randomGenerator.nextInt(450) - 225.5;
+			
+			/* Temporary workaround for the December 2015 world */
+			if (counter == 999) {
+				x = 0.5;
+				z = 0.5;
+			}
 
 			spawnLoc.setX(x);
 			spawnLoc.setY(y);
@@ -90,40 +103,17 @@ public class PvPTransportation {
 
 			blocktype = spawnLoc.getBlock().getType();
 
-			/* While the block at the given x and z coords is of one of the below types, we check if the two blocks above it are
-			 * empty blocks that would allow the player to teleport. */
-			while ( ( blocktype == Material.STONE
-					|| blocktype == Material.GRASS
-					|| blocktype == Material.DIRT
-					|| blocktype == Material.COBBLESTONE
-					|| blocktype == Material.WATER
-					|| blocktype == Material.STATIONARY_WATER
-					|| blocktype == Material.SAND
-					|| blocktype == Material.SANDSTONE
-					) && y <= 250 ) {
-
-				spawnLoc.setY(y + 1);
-				blocktype1 = spawnLoc.getBlock().getType();
-
-				spawnLoc.setY(y + 2);
-				blocktype2 = spawnLoc.getBlock().getType();
-
-				/* If the two blocks above the y position are valid nonsolids, then we got a good location */
-				if ( Arrays.binarySearch(nonsolids, blocktype1) > -1 && Arrays.binarySearch(nonsolids, blocktype2) > -1 ) {
-
-					PvPTeleport.instance.getLogger().info("Found valid pvp world spawn location on attempt " + counter + ".");
-					return spawnLoc;
-
-				}
-
-				/* Increment y by one, to test that location */
-				y++;
+			/* Move downwards for as long as we have nonsolid blocks */
+			while (Arrays.binarySearch(nonsolids,  blocktype) > -1 && y > 5 ) {
+				y--;
 				spawnLoc.setY(y);
 				blocktype = spawnLoc.getBlock().getType();
-
 			}
-
-			counter++;
+			
+			if (Arrays.binarySearch(solids, blocktype) > -1) {
+				PvPTeleport.instance.getLogger().info("Found valid pvp world spawn location on attempt " + counter + ".");
+				return spawnLoc;
+			}
 
 		}
 
