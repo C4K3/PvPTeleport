@@ -1,6 +1,6 @@
 name: PvPTeleport
-main: org.c4k3.PvPTeleport.PvPTeleport
-version: 1.6 #Bukkit 1.7.9 1938
+main: net.simpvp.PvPTeleport.PvPTeleport
+version: 1.7
 depend: [MultiWorld]
 commands:
   world:

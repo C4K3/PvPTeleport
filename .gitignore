@@ -2,3 +2,4 @@ bin
 src/lib
 .classpath
 .project
+*.jar
