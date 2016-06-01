@@ -1,4 +1,4 @@
-package org.c4k3.PvPTeleport;
+package net.simpvp.PvPTeleport;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -68,7 +68,7 @@ public class PvPTransportation {
 		nonsolids[10] = Material.SIGN_POST;
 		
 		/* Array of materials the player is allowed to spawn on top of */
-		Material[] solids = new Material[9];
+		Material[] solids = new Material[10];
 		solids[0] = Material.STONE;
 		solids[1] = Material.GRASS;
 		solids[2] = Material.DIRT;
@@ -78,6 +78,7 @@ public class PvPTransportation {
 		solids[6] = Material.STATIONARY_WATER;
 		solids[7] = Material.SAND;
 		solids[8] = Material.SANDSTONE;
+		solids[9] = Material.GLASS;
 
 		Random randomGenerator = new Random();
 

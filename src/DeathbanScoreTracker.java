@@ -1,4 +1,4 @@
-package org.c4k3.PvPTeleport;
+package net.simpvp.PvPTeleport;
 
 import java.util.HashMap;
 import java.util.UUID;

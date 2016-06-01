@@ -1,4 +1,4 @@
-package org.c4k3.PvPTeleport;
+package net.simpvp.PvPTeleport;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
