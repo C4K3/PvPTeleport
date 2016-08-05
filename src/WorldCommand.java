@@ -94,22 +94,27 @@ public class WorldCommand implements CommandExecutor {
 		/* Check if there are any players within 50 blocks */
 		for ( Player p : world.getPlayers() ) {
 
-			if ( !p.equals(player) && p.getLocation().distance(pLoc) < 50 && player.canSee(p) ) return ChatColor.RED + "You cannot use this command while within 50 blocks of any other players.";
+			if (!p.equals(player)
+					&& p.getLocation().distance(pLoc) < 50
+					&& player.canSee(p)
+					&& !p.isDead()) {
+				return ChatColor.RED + "You cannot use this command while within 50 blocks of any other players.";
+			}
 
 		}
 
 		/* Check if there are any hostile mobs within 5 blocks */
 		for ( Entity entity : world.getEntitiesByClasses(Blaze.class, Creeper.class, Enderman.class, Ghast.class, PigZombie.class, Skeleton.class,
-				Spider.class, Witch.class, CaveSpider.class, Slime.class, MagmaCube.class, Silverfish.class, Zombie.class) ) {
+					Spider.class, Witch.class, CaveSpider.class, Slime.class, MagmaCube.class, Silverfish.class, Zombie.class) ) {
 
 			if ( entity.getLocation().distance(pLoc) < 5 ) return ChatColor.RED + "You cannot use this command while within 5 blocks of any hostile mobs.";
 
 		}
-		
+
 		/* Check if the player is falling */
 		if ( player.getVelocity().getY() < - 0.079 || player.getVelocity().getY() > 0.08 )
 			return ChatColor.RED + "You cannot use this command while falling.";
-			
+
 		/* Check if the player is burning */
 		if ( player.getFireTicks() > 0 && !player.hasPotionEffect(PotionEffectType.FIRE_RESISTANCE) ) 
 			return ChatColor.RED + "You cannot use this command while on fire.";
