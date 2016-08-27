@@ -17,7 +17,8 @@ public class SQLite {
 	public static void connect() {
 
 		/* Where the last part is the name of the database file */
-		String database = "jdbc:sqlite:plugins/PvPTeleport/PvPTeleport.sqlite";
+		String database = "jdbc:sqlite:"
+			+ "plugins/PvPTeleport/PvPTeleport.sqlite";
 
 		try {
 			Class.forName("org.sqlite.JDBC");
@@ -39,13 +40,13 @@ public class SQLite {
 				/* Player locations in the overworld,
 				 * used when players teleport to 'pvp' */
 				String query = "CREATE TABLE worldlocs "
-						+ "(id INTEGER PRIMARY KEY AUTOINCREMENT,"
-						+ "uuid BLOB,"
-						+ "x INT,"
-						+ "y INT,"
-						+ "z INT);"
+					+ "(id INTEGER PRIMARY KEY AUTOINCREMENT,"
+					+ "uuid BLOB,"
+					+ "x INT,"
+					+ "y INT,"
+					+ "z INT);"
 
-						+ "PRAGMA user_version = 2;";
+					+ "PRAGMA user_version = 2;";
 				st.executeUpdate(query);
 				break;
 			}
@@ -83,7 +84,8 @@ public class SQLite {
 	 */
 	public static void worldLocsInsert(Player player) {
 		try {
-			String query = "INSERT INTO worldlocs (uuid, x, y, z) VALUES (?, ?, ?, ?);";
+			String query = "INSERT INTO worldlocs (uuid, x, y, z) "
+				+ "VALUES (?, ?, ?, ?);";
 			PreparedStatement st = conn.prepareStatement(query);
 			st.setString(1, player.getUniqueId().toString());
 			st.setInt(2, player.getLocation().getBlockX());
@@ -99,24 +101,28 @@ public class SQLite {
 	public static Location worldLocsGet(UUID uuid) {
 		Location ret = null;
 		try {
-			String query = "SELECT * FROM worldlocs WHERE uuid = ?;";
+			String query = "SELECT * FROM worldlocs "
+				+ "WHERE uuid = ?;";
 			PreparedStatement st = conn.prepareStatement(query);
 			st.setString(1,  uuid.toString());
 			ResultSet rs = st.executeQuery();
 
 			while (rs.next()) {
 				ret = new Location(
-						PvPTeleport.instance.getServer().getWorld("world"),
-						(double) rs.getInt("x") + 0.5,
-						(double) rs.getInt("y") + 0.5,
-						(double) rs.getInt("z") + 0.5);
+					PvPTeleport.instance.getServer()
+						.getWorld("world"),
+					(double) rs.getInt("x") + 0.5,
+					(double) rs.getInt("y") + 0.5,
+					(double) rs.getInt("z") + 0.5);
 			}
+
 			rs.close();
 			st.close();
 
 		} catch (Exception e) {
 			PvPTeleport.instance.getLogger().info(e.getMessage());
 		}
+
 		return ret;
 	}
 
@@ -133,3 +139,4 @@ public class SQLite {
 	}
 
 }
+

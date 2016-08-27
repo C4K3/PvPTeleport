@@ -30,18 +30,24 @@ import org.bukkit.potion.PotionEffectType;
 public class WorldCommand implements CommandExecutor {
 
 	/** Teleports player to a random location in the pvp world
-	 * Returns true if it was properly handled (teleport successful, or player was deteremined ineligible for teleport)
+	 *
+	 * Returns true if it was properly handled (teleport successful, or
+	 * player was deteremined ineligible for teleport)
 	 * Returns false if it failed
 	 */
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+	public boolean onCommand(
+			CommandSender sender,
+			Command command,
+			String label,
+			String[] args) {
 
 		Player player = null;
-		if (sender instanceof Player){
+		if (sender instanceof Player) {
 			player = (Player) sender;
 		}
 
 		/* Checks that sender is a player and not console */
-		if ( player == null ) {
+		if (player == null) {
 			PvPTeleport.instance.getLogger().info("Only players can use this command.");
 			return true;
 		}
@@ -49,7 +55,7 @@ public class WorldCommand implements CommandExecutor {
 		String sWorld = player.getWorld().getName();
 
 		/* Checks that they are either in the pvp world or overworld */
-		if ( !sWorld.equals("world") && !sWorld.equals("pvp") ) {
+		if (!sWorld.equals("world") && !sWorld.equals("pvp")) {
 			player.sendMessage(ChatColor.RED + "You must be in the overworld to use this command.");
 			return true;
 		}
@@ -57,24 +63,19 @@ public class WorldCommand implements CommandExecutor {
 		String tCheck = teleportCheck(player);
 
 		/* Checks that they do not fail the teleportCheck (combatlog check) */
-		if ( tCheck != null ) { 
+		if (tCheck != null) {
 			player.sendMessage(tCheck);
 			return true;
 		}
 
-		if ( sWorld.equals("world") ) {
-
+		if (sWorld.equals("world")) {
 			PvPTransportation.teleportToPvP(player);
-
 			return true;
-
 		}
 
 		/* If the person using the command is in the pvp world, then they shall be teleport back to the pvp world. */
-		else if ( sWorld.equals("pvp") ) {
-
+		else if (sWorld.equals("pvp")) {
 			TeleportBack.teleportBack(player);
-
 		}
 
 		return true;
@@ -82,7 +83,8 @@ public class WorldCommand implements CommandExecutor {
 	}
 
 	/** Checks that player is not trying to combatlog/is allowed to teleport
-	 * Returns an error message to be displayed if the player is not allowed to teleport
+	 * Returns an error message to be displayed if the player is not allowed
+	 * to teleport
 	 * Returns null if the player is allowed to teleport
 	 */
 	private static String teleportCheck(Player player) {
@@ -92,7 +94,7 @@ public class WorldCommand implements CommandExecutor {
 		World world = player.getWorld();
 
 		/* Check if there are any players within 50 blocks */
-		for ( Player p : world.getPlayers() ) {
+		for (Player p : world.getPlayers()) {
 
 			if (!p.equals(player)
 					&& p.getLocation().distance(pLoc) < 50
@@ -104,20 +106,39 @@ public class WorldCommand implements CommandExecutor {
 		}
 
 		/* Check if there are any hostile mobs within 5 blocks */
-		for ( Entity entity : world.getEntitiesByClasses(Blaze.class, Creeper.class, Enderman.class, Ghast.class, PigZombie.class, Skeleton.class,
-					Spider.class, Witch.class, CaveSpider.class, Slime.class, MagmaCube.class, Silverfish.class, Zombie.class) ) {
+		for (Entity entity : world.getEntitiesByClasses(
+					Blaze.class,
+					CaveSpider.class,
+					Creeper.class,
+					Enderman.class,
+					Ghast.class,
+					MagmaCube.class,
+					PigZombie.class,
+					Skeleton.class,
+					Silverfish.class,
+					Slime.class,
+					Spider.class,
+					Witch.class,
+					Zombie.class)) {
 
-			if ( entity.getLocation().distance(pLoc) < 5 ) return ChatColor.RED + "You cannot use this command while within 5 blocks of any hostile mobs.";
+			if (entity.getLocation().distance(pLoc) < 5) {
+				return ChatColor.RED + "You cannot use this command while within 5 blocks of any hostile mobs.";
+			}
 
 		}
 
 		/* Check if the player is falling */
-		if ( player.getVelocity().getY() < - 0.079 || player.getVelocity().getY() > 0.08 )
+		if (player.getVelocity().getY() < -0.079
+				|| player.getVelocity().getY() > 0.08) {
 			return ChatColor.RED + "You cannot use this command while falling.";
+		}
 
 		/* Check if the player is burning */
-		if ( player.getFireTicks() > 0 && !player.hasPotionEffect(PotionEffectType.FIRE_RESISTANCE) ) 
+		if (player.getFireTicks() > 0
+				&& !player.hasPotionEffect(
+					PotionEffectType.FIRE_RESISTANCE)) {
 			return ChatColor.RED + "You cannot use this command while on fire.";
+		}
 
 		/* Default to allow teleport */
 		return null;
@@ -125,3 +146,4 @@ public class WorldCommand implements CommandExecutor {
 	}
 
 }
+

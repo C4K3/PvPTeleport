@@ -23,26 +23,33 @@ public class TeleportBack {
 		Location loc = SQLite.worldLocsGet(uuid);
 
 		/* If unable to get location. */
-		if ( loc == null ) {
+		if (loc == null) {
 			player.sendMessage(ChatColor.RED + "Database error."
 					+ "\nPlease contact an admin for assistance.");
 			return;
 		}
 
 		/* Teleporting will glitch if a player is inside a vehicle */
-		if ( player.isInsideVehicle() ) {
+		if (player.isInsideVehicle()) {
 			player.leaveVehicle();
 		}
 
 		String sPlayer = player.getName();
 
 		player.teleport(loc);
-		player.sendMessage(ChatColor.GOLD + "Teleporting you back to your saved location in the overworld.");
-		PvPTeleport.instance.getLogger().info("Teleporting " + sPlayer + " back to " + loc.getBlockX() + " " + loc.getBlockY() + " " + loc.getBlockZ());
+		player.sendMessage(ChatColor.GOLD
+				+ "Teleporting you back to your saved location in the overworld.");
+		PvPTeleport.instance.getLogger().info("Teleporting " + sPlayer
+				+ " back to "
+				+ loc.getBlockX() + " "
+				+ loc.getBlockY() + " "
+				+ loc.getBlockZ());
 
-		if ( player.getWorld().getName().equals("world") )
+		if (player.getWorld().getName().equals("world")) {
 			SQLite.worldLocsRemove(uuid);
+		}
 
 	}
 
 }
+

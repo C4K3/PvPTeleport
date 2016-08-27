@@ -15,7 +15,9 @@ import org.bukkit.entity.Player;
 public class PvPTransportation {
 
 	/**
-	 * Blindly teleports player to the PvP world. Assumes all checks have been completed already.
+	 * Blindly teleports player to the PvP world.
+	 *
+	 * Assumes all checks have been completed already.
 	 * @param player Player to teleport.
 	 */
 	public static void teleportToPvP(Player player) {
@@ -23,18 +25,17 @@ public class PvPTransportation {
 		Location loc = randomSpawn();
 
 		/* If unable to get random spawn location */
-		if ( loc == null ) {
+		if (loc == null) {
 			player.sendMessage(ChatColor.RED + "Unable to get a spawn location for you.\n"
 					+ "Please try again.\n"
 					+ "If this problem persists, please contact an admin for assistance.");
 			return;
 		}
 
-
 		String sPlayer = player.getName();
 
 		/* Teleporting will glitch if a player is inside a vehicle */
-		if ( player.isInsideVehicle() ) {
+		if (player.isInsideVehicle()) {
 			player.leaveVehicle();
 		}
 
@@ -42,8 +43,8 @@ public class PvPTransportation {
 
 		player.teleport(loc);
 		player.sendMessage(ChatColor.GOLD + "Teleporting you to a random location in the pvp world.");
-		PvPTeleport.instance.getLogger().info("Teleporting " + sPlayer + " to the pvp world.");
-
+		PvPTeleport.instance.getLogger().info("Teleporting "
+				+ sPlayer + " to the pvp world.");
 	}
 
 	/**
@@ -52,7 +53,7 @@ public class PvPTransportation {
 	 */
 	private static Location randomSpawn() {
 
-		/* Array of materials the player is allowed to spawn inside of */
+		/* Materials the player is allowed to spawn inside of */
 		Material[] nonsolids = new Material[11];
 
 		nonsolids[0] = Material.AIR;
@@ -67,7 +68,7 @@ public class PvPTransportation {
 		nonsolids[9] = Material.SIGN;
 		nonsolids[10] = Material.SIGN_POST;
 		
-		/* Array of materials the player is allowed to spawn on top of */
+		/* Materials the player is allowed to spawn on top of */
 		Material[] solids = new Material[8];
 		/*
 		solids[0] = Material.STONE;
@@ -90,17 +91,19 @@ public class PvPTransportation {
 		solids[6] = Material.SANDSTONE;
 		solids[7] = Material.GLASS;
 
-		Random randomGenerator = new Random();
+		Random RNG = new Random();
 
 		Material blocktype = null;
-		Location spawnLoc = new Location(PvPTeleport.instance.getServer().getWorld("pvp"), 0, 0, 0);
+		Location spawnLoc = new Location(PvPTeleport.instance
+				.getServer().getWorld("pvp"),
+				0, 0, 0);
 
 		/* Only give it 1 000 tries */
 		for (int counter = 0; counter < 1000; counter++) {
 
 			Double y = 255.0;
-			Double x = (double) randomGenerator.nextInt(450) - 225.5;
-			Double z = (double) randomGenerator.nextInt(450) - 225.5;
+			Double x = (double) RNG.nextInt(450) - 225.5;
+			Double z = (double) RNG.nextInt(450) - 225.5;
 			
 			/* Temporary workaround for the December 2015 world */
 			if (counter == 999) {
@@ -114,8 +117,10 @@ public class PvPTransportation {
 
 			blocktype = spawnLoc.getBlock().getType();
 
-			/* Move downwards for as long as we have nonsolid blocks */
-			while (Arrays.binarySearch(nonsolids,  blocktype) > -1 && y > 5 ) {
+			/* Move downwards for as long as we have
+			 * nonsolid blocks until we reach a solid block */
+			while (Arrays.binarySearch(nonsolids,  blocktype) > -1
+					&& y > 5 ) {
 				y--;
 				spawnLoc.setY(y);
 				blocktype = spawnLoc.getBlock().getType();
@@ -134,3 +139,4 @@ public class PvPTransportation {
 	}
 
 }
+
