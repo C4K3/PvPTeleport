@@ -7,13 +7,13 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 /**
- * Handles teleporting the player back to the overworld from either 'pvp' or 'deathban'.
+ * Handles teleporting the player back to the overworld from the pvp world
  */
 public class TeleportBack {
 
 	/**
 	 * Teleports the given player back to their location in the overworld.
-	 * 
+	 *
 	 * @param player Player who is to be teleported back.
 	 */
 	public static void teleportBack(Player player) {
@@ -27,11 +27,6 @@ public class TeleportBack {
 			player.sendMessage(ChatColor.RED + "Database error."
 					+ "\nPlease contact an admin for assistance.");
 			return;
-		}
-
-		if ( player.getWorld().getName().equals("deathban") ) {
-			SQLite.deathBanLocsInsert(player);
-			DeathbanScoreTracker.lastAttackerRemove(uuid);
 		}
 
 		/* Teleporting will glitch if a player is inside a vehicle */

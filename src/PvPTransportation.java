@@ -68,7 +68,8 @@ public class PvPTransportation {
 		nonsolids[10] = Material.SIGN_POST;
 		
 		/* Array of materials the player is allowed to spawn on top of */
-		Material[] solids = new Material[10];
+		Material[] solids = new Material[8];
+		/*
 		solids[0] = Material.STONE;
 		solids[1] = Material.GRASS;
 		solids[2] = Material.DIRT;
@@ -79,6 +80,15 @@ public class PvPTransportation {
 		solids[7] = Material.SAND;
 		solids[8] = Material.SANDSTONE;
 		solids[9] = Material.GLASS;
+		*/
+		solids[0] = Material.STONE;
+		solids[1] = Material.GRASS;
+		solids[2] = Material.DIRT;
+		solids[3] = Material.COBBLESTONE;
+		solids[4] = Material.BEDROCK;
+		solids[5] = Material.SAND;
+		solids[6] = Material.SANDSTONE;
+		solids[7] = Material.GLASS;
 
 		Random randomGenerator = new Random();
 

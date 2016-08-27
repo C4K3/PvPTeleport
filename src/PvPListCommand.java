@@ -33,9 +33,7 @@ public class PvPListCommand implements CommandExecutor {
 		} 
 
 		int pvpCounter = 0;
-		int deathbanCounter = 0;
 		String pvpList = " ";
-		String deathbanList = " ";
 
 		for ( Player tPlayer : PvPTeleport.instance.getServer().getWorld("pvp").getPlayers() ) {
 
@@ -43,17 +41,6 @@ public class PvPListCommand implements CommandExecutor {
 
 				pvpCounter++;
 				pvpList += gold + tPlayer.getName() + ChatColor.WHITE + ", ";
-
-			}
-
-		}
-
-		for ( Player tPlayer : PvPTeleport.instance.getServer().getWorld("deathban").getPlayers()) {
-
-			if ( player == null || player.canSee(tPlayer) ) {
-
-				deathbanCounter++;
-				deathbanList += gold + tPlayer.getName() + white + ", ";
 
 			}
 
