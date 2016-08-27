@@ -7,8 +7,5 @@ commands:
     description: Teleports player between overworld and pvp world.
     usage: Error. Please report at https://github.com/C4K3/PvPTeleport
   pvplist:
-    description: Lists all players in the pvp world and deathban world.
-    usage: Error. Please report at https://github.com/C4K3/PvPTeleport
-  deathban:
-    description: Teleports player between deathban world and pvp world.
+    description: Lists all players in the pvp world.
     usage: Error. Please report at https://github.com/C4K3/PvPTeleport
