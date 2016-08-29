@@ -6,7 +6,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.HashSet;
+import java.util.UUID;
+
 public class PvPListCommand implements CommandExecutor {
+
+	/* Stores all the players who have /pvplist subscribed */
+	private static HashSet<UUID> subscribed_players = new HashSet<UUID>();
 
 	/**
 	 * Print a list of players in the pvp world to the sender.
@@ -21,6 +27,86 @@ public class PvPListCommand implements CommandExecutor {
 		if (sender instanceof Player) {
 			player = (Player) sender;
 		}
+
+		if (args.length == 0) {
+			show_list(player);
+		} else {
+			subscribe(player, args);
+		}
+
+		return true;
+	}
+
+	/**
+	 * To be called when a player teleports, so that this information
+	 * may be sent to all /pvplist subscribed players.
+	 *
+	 * MUST be called AFTER the player has been teleported.
+	 */
+	public static void on_player_teleport(Player player) {
+		String msg;
+		if (player.getWorld().getName().equals("pvp")) {
+			msg = ChatColor.AQUA + player.getName()
+				+ " is now entering the pvp world.";
+		} else {
+			msg = ChatColor.BLUE + player.getName()
+				+ " is now leaving the pvp world.";
+		}
+
+		for (Player p : PvPTeleport.instance.getServer()
+				.getOnlinePlayers()) {
+			UUID uuid = p.getUniqueId();
+			if (subscribed_players.contains(uuid)
+					&& uuid != player.getUniqueId()) {
+				p.sendMessage(msg);
+			}
+		}
+	}
+
+	/**
+	 * Handles /pvplist subscribe
+	 *
+	 * Setting whether to show messages when somebody enters/leaves the
+	 * pvp world to the given player.
+	 */
+	private void subscribe(Player player, String[] args) {
+		if (args.length > 1 || !args[0].equalsIgnoreCase("subscribe")) {
+			String msg = "Invalid usage. Correct usage is "
+				+ "/pvplist [subscribe]";
+			
+			if (player == null) {
+				PvPTeleport.instance.getLogger().info(msg);
+			} else {
+				player.sendMessage(ChatColor.RED + msg);
+			}
+
+			return;
+		}
+
+		if (player == null) {
+			PvPTeleport.instance.getLogger().info(
+					"Only players can use this command.");
+			return;
+		}
+
+		UUID uuid = player.getUniqueId();
+
+		if (subscribed_players.contains(uuid)) {
+			player.sendMessage(ChatColor.GREEN
+					+ "You are no longer subscribed to pvplist.");
+			subscribed_players.remove(uuid);
+		} else {
+			player.sendMessage(ChatColor.GREEN
+					+ "You are now subscribed to pvplist.");
+			subscribed_players.add(uuid);
+		}
+
+	}
+
+	/**
+	 * Show the list of who's in the pvp world to 'player'
+	 */
+	private void show_list(Player player) {
 
 		/* Hacky workaround for only showing colors to players
 		 * and not to console */
@@ -48,7 +134,7 @@ public class PvPListCommand implements CommandExecutor {
 					+ ChatColor.WHITE + ", ";
 			}
 
-		}
+				}
 
 		if (pvpCounter > 0) {
 			/* Remove the trailing comma and space */
@@ -78,9 +164,9 @@ public class PvPListCommand implements CommandExecutor {
 			player.sendMessage(message);
 		}
 
-		return true;
+		return;
 
-			}
+	}
 
 }
 

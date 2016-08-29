@@ -44,6 +44,7 @@ public class TeleportBack {
 				+ loc.getBlockX() + " "
 				+ loc.getBlockY() + " "
 				+ loc.getBlockZ());
+		PvPListCommand.on_player_teleport(player);
 
 		if (player.getWorld().getName().equals("world")) {
 			SQLite.worldLocsRemove(uuid);

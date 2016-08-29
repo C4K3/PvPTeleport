@@ -45,6 +45,7 @@ public class PvPTransportation {
 		player.sendMessage(ChatColor.GOLD + "Teleporting you to a random location in the pvp world.");
 		PvPTeleport.instance.getLogger().info("Teleporting "
 				+ sPlayer + " to the pvp world.");
+		PvPListCommand.on_player_teleport(player);
 	}
 
 	/**
