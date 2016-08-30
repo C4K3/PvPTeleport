@@ -12,7 +12,7 @@ import java.util.UUID;
 public class PvPListCommand implements CommandExecutor {
 
 	/* Stores all the players who have /pvplist subscribed */
-	private static HashSet<UUID> subscribed_players = new HashSet<UUID>();
+	public static HashSet<UUID> subscribed_players = new HashSet<UUID>();
 
 	/**
 	 * Print a list of players in the pvp world to the sender.

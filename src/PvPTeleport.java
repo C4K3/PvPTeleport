@@ -19,6 +19,8 @@ public class PvPTeleport extends JavaPlugin {
 
 		getCommand("world").setExecutor(new WorldCommand());
 		getCommand("pvplist").setExecutor(new PvPListCommand());
+		getServer().getPluginManager().registerEvents(new PlayerJoin(),
+				this);
 
 		SQLite.connect();
 	}
