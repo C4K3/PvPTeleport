@@ -1,6 +1,6 @@
 name: PvPTeleport
 main: net.simpvp.PvPTeleport.PvPTeleport
-version: 1.8
+version: 2disable
 depend: [MultiWorld]
 commands:
   world:

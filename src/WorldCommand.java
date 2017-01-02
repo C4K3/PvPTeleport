@@ -52,34 +52,8 @@ public class WorldCommand implements CommandExecutor {
 			return true;
 		}
 
-		String sWorld = player.getWorld().getName();
-
-		/* Checks that they are either in the pvp world or overworld */
-		if (!sWorld.equals("world") && !sWorld.equals("pvp")) {
-			player.sendMessage(ChatColor.RED + "You must be in the overworld to use this command.");
-			return true;
-		}
-
-		String tCheck = teleportCheck(player);
-
-		/* Checks that they do not fail the teleportCheck (combatlog check) */
-		if (tCheck != null) {
-			player.sendMessage(tCheck);
-			return true;
-		}
-
-		if (sWorld.equals("world")) {
-			PvPTransportation.teleportToPvP(player);
-			return true;
-		}
-
-		/* If the person using the command is in the pvp world, then they shall be teleport back to the pvp world. */
-		else if (sWorld.equals("pvp")) {
-			TeleportBack.teleportBack(player);
-		}
-
+		player.sendMessage(ChatColor.RED + "This command has been temporarily removed by player consensus. See https://simplicitypvp.net/forum/viewtopic.php?f=5&t=2513 for more information.");
 		return true;
-
 	}
 
 	/** Checks that player is not trying to combatlog/is allowed to teleport
