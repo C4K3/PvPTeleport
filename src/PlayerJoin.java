@@ -6,6 +6,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.entity.Player;
 
+/**
+ * Appens '(in pvp)' to the player login messages for any player logging in in
+ * the pvp world. Though it only shows the changed message to people who have
+ * used /pvplist subscribe
+ */
 public class PlayerJoin implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled=true)
@@ -14,7 +19,18 @@ public class PlayerJoin implements Listener {
 			return;
 		}
 
-		TeleportBack.teleportBack(event.getPlayer());
+		String msg = event.getJoinMessage();
+		event.setJoinMessage("");
+
+		for (Player p : PvPTeleport.instance.getServer()
+				.getOnlinePlayers()) {
+			if (PvPListCommand.subscribed_players.contains(
+						p.getUniqueId())) {
+				p.sendMessage(msg + " (in pvp)");
+			} else {
+				p.sendMessage(msg);
+			}
+		}
 	}
 
 }
