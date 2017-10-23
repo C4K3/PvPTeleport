@@ -54,11 +54,13 @@ public class SQLite {
 			case 1: {
 				PvPTeleport.instance.getLogger().info("Upgrading database to version 2");
 				String query = "DROP TABLE deathbanlocs;"
-					+ "DROP TABLE deathbandata";
+					+ "DROP TABLE deathbandata;"
+					+ "PRAGMA user_version = 2;";
 
 				st.executeUpdate(query);
 				break;
 			}
+
 			}
 
 			st.close();
