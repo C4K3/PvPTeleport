@@ -19,8 +19,8 @@ public class PvPTeleport extends JavaPlugin {
 
 		getCommand("world").setExecutor(new WorldCommand());
 		getCommand("pvplist").setExecutor(new PvPListCommand());
-		getServer().getPluginManager().registerEvents(new PlayerJoin(),
-				this);
+		getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
+		getServer().getPluginManager().registerEvents(new PlayerQuit(), this);
 		// Following is disabled due to bug report #2
 		//getServer().getPluginManager().registerEvents(new PlayerDeath(),
 		//		this);

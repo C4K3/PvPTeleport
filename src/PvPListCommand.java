@@ -95,10 +95,12 @@ public class PvPListCommand implements CommandExecutor {
 			player.sendMessage(ChatColor.GREEN
 					+ "You are no longer subscribed to pvplist.");
 			subscribed_players.remove(uuid);
+			SQLite.pvplistSubscribeRemove(uuid);
 		} else {
 			player.sendMessage(ChatColor.GREEN
 					+ "You are now subscribed to pvplist.");
 			subscribed_players.add(uuid);
+			SQLite.pvplistSubscribeSet(uuid);
 		}
 
 	}

@@ -45,8 +45,10 @@ public class SQLite {
 					+ "x INT,"
 					+ "y INT,"
 					+ "z INT);"
-
-					+ "PRAGMA user_version = 2;";
+					+ "CREATE TABLE pvplistsubscribe "
+					+ "(id INTEGER PRIMARY KEY AUTOINCREMENT,"
+					+ "uuid BLOB);"
+					+ "PRAGMA user_version = 3;";
 				st.executeUpdate(query);
 				break;
 			}
@@ -61,7 +63,17 @@ public class SQLite {
 				break;
 			}
 
+			case 2: {
+				PvPTeleport.instance.getLogger().info("Upgrading database to version 3");
+				String query = "CREATE TABLE pvplistsubscribe "
+					+ "(id INTEGER PRIMARY KEY AUTOINCREMENT,"
+					+ "uuid BLOB);"
+					+ "PRAGMA user_version = 3;";
+
+				st.executeUpdate(query);
+				break;
 			}
+		}
 
 			st.close();
 		} catch (Exception e) {
@@ -100,6 +112,10 @@ public class SQLite {
 		}
 	}
 
+	/**
+	 * Get the world locs coords from the given player
+	 * @param uuid UUID of the player whose coords are to be retrieved
+	 */
 	public static Location worldLocsGet(UUID uuid) {
 		Location ret = null;
 		try {
@@ -128,9 +144,68 @@ public class SQLite {
 		return ret;
 	}
 
+	/**
+	 * Removes the worldLocs coords of the given player
+	 * @param uuid UUID of the player whose coords should be removed
+	 */
 	public static void worldLocsRemove(UUID uuid) {
 		try {
 			String query = "DELETE FROM worldlocs WHERE uuid = ?;";
+			PreparedStatement st = conn.prepareStatement(query);
+			st.setString(1, uuid.toString());
+			st.executeUpdate();
+			st.close();
+		} catch (Exception e) {
+			PvPTeleport.instance.getLogger().info(e.getMessage());
+		}
+	}
+
+	/**
+	 * Get whether the given player is subscribed to pvplist subscribe
+	 */
+	public static boolean pvplistSubscribeGet(UUID uuid) {
+		boolean ret = false;
+		try {
+			String query = "SELECT * FROM pvplistsubscribe WHERE uuid = ?;";
+			PreparedStatement st = conn.prepareStatement(query);
+			st.setString(1, uuid.toString());
+			ResultSet rs = st.executeQuery();
+
+			if (rs.next()) {
+				ret = true;
+			}
+
+			rs.close();
+			st.close();
+		} catch (Exception e) {
+			PvPTeleport.instance.getLogger().info(e.getMessage());
+		}
+
+		return ret;
+	}
+
+	/**
+	 * Set the given player to be subscribed to pvplist subscribe
+	 */
+	public static void pvplistSubscribeSet(UUID uuid) {
+		try {
+			String query = "INSERT INTO pvplistsubscribe (uuid) "
+				+ "VALUES (?);";
+			PreparedStatement st = conn.prepareStatement(query);
+			st.setString(1, uuid.toString());
+			st.executeUpdate();
+			st.close();
+		} catch (Exception e) {
+			PvPTeleport.instance.getLogger().info(e.getMessage());
+		}
+	}
+
+	/**
+	 * Remove the given player from pvplist subscribe
+	 */
+	public static void pvplistSubscribeRemove(UUID uuid) {
+		try {
+			String query = "DELETE FROM pvplistsubscribe WHERE uuid = ?;";
 			PreparedStatement st = conn.prepareStatement(query);
 			st.setString(1, uuid.toString());
 			st.executeUpdate();
