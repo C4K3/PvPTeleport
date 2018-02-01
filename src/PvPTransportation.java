@@ -7,6 +7,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.World;
+import org.bukkit.WorldBorder;
 
 /** Handles transportation from 'world' to 'pvp'.
  * 
@@ -95,16 +97,25 @@ public class PvPTransportation {
 		Random RNG = new Random();
 
 		Material blocktype = null;
-		Location spawnLoc = new Location(PvPTeleport.instance
-				.getServer().getWorld("pvp"),
-				0, 0, 0);
+		World pvpworld = PvPTeleport.instance.getServer().getWorld("pvp");
+		WorldBorder border = pvpworld.getWorldBorder();
+		Double x_center = border.getCenter().getX();
+		Double z_center = border.getCenter().getZ();
+		/* Make the area within which players can spawn 50 less than the
+		 * border, so people don't spawn within 25 blocks of the border */
+		Double border_size = border.getSize() - 50;
+		if (border_size <= 0) {
+			border_size = border.getSize();
+		}
+
+		Location spawnLoc = new Location(pvpworld, 0, 0, 0);
 
 		/* Only give it 1 000 tries */
 		for (int counter = 0; counter < 1000; counter++) {
 
 			Double y = 255.0;
-			Double x = (double) RNG.nextInt(450) - 225.5;
-			Double z = (double) RNG.nextInt(450) - 225.5;
+			Double x = (double) RNG.nextInt(border_size.intValue()) - (border_size/2);
+			Double z = (double) RNG.nextInt(border_size.intValue()) - (border_size/2);
 			
 			/* Temporary workaround for the December 2015 world */
 			if (counter == 999) {
