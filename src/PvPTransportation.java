@@ -115,7 +115,9 @@ public class PvPTransportation {
 
 			Double y = 255.0;
 			Double x = (double) RNG.nextInt(border_size.intValue()) - (border_size/2);
+			x += x_center;
 			Double z = (double) RNG.nextInt(border_size.intValue()) - (border_size/2);
+			z += z_center;
 			
 			/* Temporary workaround for the December 2015 world */
 			if (counter == 999) {
