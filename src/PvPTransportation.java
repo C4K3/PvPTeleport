@@ -119,7 +119,7 @@ public class PvPTransportation {
 			Double z = (double) RNG.nextInt(border_size.intValue()) - (border_size/2);
 			z += z_center;
 			
-			/* Temporary workaround for the December 2015 world */
+			/* If all randomly tried positions have failed, ensure we try 0,0 at least once */
 			if (counter == 999) {
 				x = 0.5;
 				z = 0.5;
