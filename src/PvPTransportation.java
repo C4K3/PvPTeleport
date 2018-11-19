@@ -79,7 +79,7 @@ public class PvPTransportation {
 		/* Materials the player is allowed to spawn on top of */
 		Material[] solids = new Material[8];
 		solids[0] = Material.STONE;
-		solids[1] = Material.GRASS;
+		solids[1] = Material.GRASS_BLOCK;
 		solids[2] = Material.DIRT;
 		solids[3] = Material.COBBLESTONE;
 		solids[4] = Material.BEDROCK;
