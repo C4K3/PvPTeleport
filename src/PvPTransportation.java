@@ -87,6 +87,9 @@ public class PvPTransportation {
 		solids[6] = Material.SANDSTONE;
 		solids[7] = Material.GLASS;
 
+		Arrays.sort(nonsolids);
+		Arrays.sort(solids);
+
 		Random RNG = new Random();
 
 		Material blocktype = null;
