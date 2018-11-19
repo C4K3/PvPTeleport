@@ -1,6 +1,7 @@
 name: PvPTeleport
 main: net.simpvp.PvPTeleport.PvPTeleport
 version: 1.8
+api-version: 1.13
 commands:
   world:
     description: Teleports player between overworld and pvp world.

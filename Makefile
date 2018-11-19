@@ -1,4 +1,4 @@
-BUKKIT=../bukkit-1.8.8B1.jar
+BUKKIT=../bukkit-1.13.1B1.jar
 JAVA=1.8
 PLUGIN=PvPTeleport
 TARGET_DIR=net

@@ -57,34 +57,27 @@ public class PvPTransportation {
 	private static Location randomSpawn() {
 
 		/* Materials the player is allowed to spawn inside of */
-		Material[] nonsolids = new Material[11];
+		Material[] nonsolids = new Material[16];
 
 		nonsolids[0] = Material.AIR;
-		nonsolids[1] = Material.SAPLING;
-		nonsolids[2] = Material.GRASS;
-		nonsolids[3] = Material.DEAD_BUSH;
-		nonsolids[4] = Material.YELLOW_FLOWER;
-		nonsolids[5] = Material.RED_ROSE;
-		nonsolids[6] = Material.BROWN_MUSHROOM;
-		nonsolids[7] = Material.RED_MUSHROOM;
-		nonsolids[8] = Material.TORCH;
-		nonsolids[9] = Material.SIGN;
-		nonsolids[10] = Material.SIGN_POST;
+		nonsolids[1] = Material.ACACIA_SAPLING;
+		nonsolids[2] = Material.BIRCH_SAPLING;
+		nonsolids[3] = Material.DARK_OAK_SAPLING;
+		nonsolids[4] = Material.JUNGLE_SAPLING;
+		nonsolids[5] = Material.OAK_SAPLING;
+		nonsolids[6] = Material.SPRUCE_SAPLING;
+		nonsolids[7] = Material.GRASS;
+		nonsolids[8] = Material.DEAD_BUSH;
+		nonsolids[9] = Material.DANDELION;
+		nonsolids[10] = Material.ROSE_RED;
+		nonsolids[11] = Material.BROWN_MUSHROOM;
+		nonsolids[12] = Material.RED_MUSHROOM;
+		nonsolids[13] = Material.TORCH;
+		nonsolids[14] = Material.SIGN;
+		nonsolids[15] = Material.WALL_SIGN;
 		
 		/* Materials the player is allowed to spawn on top of */
 		Material[] solids = new Material[8];
-		/*
-		solids[0] = Material.STONE;
-		solids[1] = Material.GRASS;
-		solids[2] = Material.DIRT;
-		solids[3] = Material.COBBLESTONE;
-		solids[4] = Material.BEDROCK;
-		solids[5] = Material.WATER;
-		solids[6] = Material.STATIONARY_WATER;
-		solids[7] = Material.SAND;
-		solids[8] = Material.SANDSTONE;
-		solids[9] = Material.GLASS;
-		*/
 		solids[0] = Material.STONE;
 		solids[1] = Material.GRASS;
 		solids[2] = Material.DIRT;
