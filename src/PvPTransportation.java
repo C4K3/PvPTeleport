@@ -56,40 +56,6 @@ public class PvPTransportation {
 	 */
 	private static Location randomSpawn() {
 
-		/* Materials the player is allowed to spawn inside of */
-		Material[] nonsolids = new Material[16];
-
-		nonsolids[0] = Material.AIR;
-		nonsolids[1] = Material.ACACIA_SAPLING;
-		nonsolids[2] = Material.BIRCH_SAPLING;
-		nonsolids[3] = Material.DARK_OAK_SAPLING;
-		nonsolids[4] = Material.JUNGLE_SAPLING;
-		nonsolids[5] = Material.OAK_SAPLING;
-		nonsolids[6] = Material.SPRUCE_SAPLING;
-		nonsolids[7] = Material.GRASS;
-		nonsolids[8] = Material.DEAD_BUSH;
-		nonsolids[9] = Material.DANDELION;
-		nonsolids[10] = Material.ROSE_RED;
-		nonsolids[11] = Material.BROWN_MUSHROOM;
-		nonsolids[12] = Material.RED_MUSHROOM;
-		nonsolids[13] = Material.TORCH;
-		nonsolids[14] = Material.SIGN;
-		nonsolids[15] = Material.WALL_SIGN;
-		
-		/* Materials the player is allowed to spawn on top of */
-		Material[] solids = new Material[8];
-		solids[0] = Material.STONE;
-		solids[1] = Material.GRASS_BLOCK;
-		solids[2] = Material.DIRT;
-		solids[3] = Material.COBBLESTONE;
-		solids[4] = Material.BEDROCK;
-		solids[5] = Material.SAND;
-		solids[6] = Material.SANDSTONE;
-		solids[7] = Material.GLASS;
-
-		Arrays.sort(nonsolids);
-		Arrays.sort(solids);
-
 		Random RNG = new Random();
 
 		Material blocktype = null;
@@ -129,14 +95,13 @@ public class PvPTransportation {
 
 			/* Move downwards for as long as we have
 			 * nonsolid blocks until we reach a solid block */
-			while (Arrays.binarySearch(nonsolids,  blocktype) > -1
-					&& y > 5 ) {
+			while (is_nonsolid(blocktype) && y > 5) {
 				y--;
 				spawnLoc.setY(y);
 				blocktype = spawnLoc.getBlock().getType();
 			}
 			
-			if (Arrays.binarySearch(solids, blocktype) > -1) {
+			if (blocktype.isSolid()) {
 				PvPTeleport.instance.getLogger().info("Found valid pvp world spawn location on attempt " + counter + ".");
 				return spawnLoc;
 			}
@@ -146,6 +111,31 @@ public class PvPTransportation {
 		PvPTeleport.instance.getLogger().info("Tried over 1000 times to find a suitable spawn, no result.");
 		return null;
 
+	}
+
+	/* Materials the player is allowed to spawn inside of */
+	private static boolean is_nonsolid(Material block) {
+		switch (block) {
+			case AIR:
+			case ACACIA_SAPLING:
+			case BIRCH_SAPLING:
+			case DARK_OAK_SAPLING:
+			case JUNGLE_SAPLING:
+			case OAK_SAPLING:
+			case SPRUCE_SAPLING:
+			case GRASS:
+			case DEAD_BUSH:
+			case DANDELION:
+			case ROSE_RED:
+			case BROWN_MUSHROOM:
+			case RED_MUSHROOM:
+			case TORCH:
+			case SIGN:
+			case WALL_SIGN:
+			      return true;
+			default:
+			      return false;
+		}
 	}
 
 }
