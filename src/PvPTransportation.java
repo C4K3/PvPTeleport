@@ -102,7 +102,8 @@ public class PvPTransportation {
 			}
 			
 			if (blocktype.isSolid()) {
-				PvPTeleport.instance.getLogger().info("Found valid pvp world spawn location on attempt " + counter + ".");
+				String tmp = String.format("Found valid pvp world spawn location on attempt %d. (%f, %f, %f)", counter, x, y, z);
+				PvPTeleport.instance.getLogger().info(tmp);
 				return spawnLoc;
 			}
 
