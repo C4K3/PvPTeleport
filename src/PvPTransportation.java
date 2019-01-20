@@ -101,7 +101,7 @@ public class PvPTransportation {
 				blocktype = spawnLoc.getBlock().getType();
 			}
 			
-			if (blocktype.isSolid()) {
+			if (is_solid(blocktype)) {
 				String tmp = String.format("Found valid pvp world spawn location on attempt %d. (%f, %f, %f)", counter, x, y, z);
 				PvPTeleport.instance.getLogger().info(tmp);
 				return spawnLoc;
@@ -136,6 +136,28 @@ public class PvPTransportation {
 			      return true;
 			default:
 			      return false;
+		}
+	}
+
+	/* Materials the player is allowed to spawn on top of */
+	private static boolean is_solid(Material block) {
+		switch (block) {
+			case BEDROCK:
+			case COBBLESTONE:
+			case DIRT:
+			case END_STONE:
+			case GLASS:
+			case GRASS_BLOCK:
+			case GRASS_PATH:
+			case GRAVEL:
+			case NETHERRACK:
+			case OBSIDIAN:
+			case SAND:
+			case SANDSTONE:
+			case STONE:
+				return true;
+			default:
+				return false;
 		}
 	}
 
