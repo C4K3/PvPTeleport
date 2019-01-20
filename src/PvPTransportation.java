@@ -77,9 +77,10 @@ public class PvPTransportation {
 
 			Double y = 255.0;
 			Double x = (double) RNG.nextInt(border_size.intValue()) - (border_size/2);
-			x += x_center;
+			/* + 0.5 to put it in the center of the block */
+			x += x_center + 0.5;
 			Double z = (double) RNG.nextInt(border_size.intValue()) - (border_size/2);
-			z += z_center;
+			z += z_center + 0.5;
 			
 			/* If all randomly tried positions have failed, ensure we try 0,0 at least once */
 			if (counter == 999) {
