@@ -69,6 +69,10 @@ public class WorldCommand implements CommandExecutor {
 		}
 
 		if (sWorld.equals("world")) {
+			if (DisableWorldCommand.is_disabled) {
+				player.sendMessage(ChatColor.RED + "/world is temporarily disabled for maintenance. It will be back up shortly.");
+				return true;
+			}
 			PvPTransportation.teleportToPvP(player);
 			return true;
 		}

@@ -9,3 +9,5 @@ commands:
   pvplist:
     description: Lists all players in the pvp world.
     usage: Error. Please report at https://github.com/C4K3/PvPTeleport
+  disableworld:
+    description: Disables the /world command, returns everybody in /world
