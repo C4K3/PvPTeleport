@@ -23,6 +23,12 @@ public class PvPTransportation {
 	 * @param player Player to teleport.
 	 */
 	public static void teleportToPvP(Player player) {
+		World pvpworld = PvPTeleport.instance.getServer().getWorld("pvp");
+		if (pvpworld == null) {
+			player.sendMessage(ChatColor.RED + "World is unloaded. Please ask an admin to have the PvP world loaded.");
+			PvPTeleport.instance.getLogger().info("PvP world is unloaded!");
+			return;
+		}
 
 		Location loc = randomSpawn();
 
