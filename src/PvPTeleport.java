@@ -22,6 +22,7 @@ public class PvPTeleport extends JavaPlugin {
 		getCommand("disableworld").setExecutor(new DisableWorldCommand());
 		getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
 		getServer().getPluginManager().registerEvents(new PlayerQuit(), this);
+		getServer().getPluginManager().registerEvents(new Glide(), this);
 		// Following is disabled due to bug report #2
 		//getServer().getPluginManager().registerEvents(new PlayerDeath(),
 		//		this);
