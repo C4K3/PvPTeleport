@@ -45,10 +45,14 @@ public class SQLite {
 					+ "x INT,"
 					+ "y INT,"
 					+ "z INT);"
+					+ "CREATE INDEX idx_worldlocs_uuid ON worldlocs (uuid);"
+
 					+ "CREATE TABLE pvplistsubscribe "
 					+ "(id INTEGER PRIMARY KEY AUTOINCREMENT,"
 					+ "uuid BLOB);"
-					+ "PRAGMA user_version = 3;";
+					+ "CREATE INDEX idx_pvplistsubscribe_uuid ON pvplistsubscribe (uuid);"
+
+					+ "PRAGMA user_version = 4;";
 				st.executeUpdate(query);
 				break;
 			}
@@ -70,6 +74,16 @@ public class SQLite {
 					+ "uuid BLOB);"
 					+ "PRAGMA user_version = 3;";
 
+				st.executeUpdate(query);
+				break;
+			}
+
+			case 3: {
+				PvPTeleport.instance.getLogger().info("Upgrading database to version 4");
+				String query = ""
+					+ "CREATE INDEX idx_worldlocs_uuid ON worldlocs (uuid);"
+					+ "CREATE INDEX idx_pvplistsubscribe_uuid ON pvplistsubscribe (uuid);"
+					+ "PRAGMA user_version = 4;";
 				st.executeUpdate(query);
 				break;
 			}
