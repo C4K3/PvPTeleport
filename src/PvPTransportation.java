@@ -88,10 +88,14 @@ public class PvPTransportation {
 			Double z = (double) RNG.nextInt(border_size.intValue()) - (border_size/2);
 			z += z_center + 0.5;
 			
-			/* If all randomly tried positions have failed, ensure we try 0,0 at least once */
-			if (counter == 999) {
+			/* If all randomly tried positions have failed, ensure
+			 * we try at least 0,0 and the border center */
+			if (counter == 998) {
 				x = 0.5;
 				z = 0.5;
+			} else if (counter == 999) {
+				x = x_center;
+				z = z_center;
 			}
 
 			spawnLoc.setX(x);
@@ -107,13 +111,17 @@ public class PvPTransportation {
 				spawnLoc.setY(y);
 				blocktype = spawnLoc.getBlock().getType();
 			}
+
+			if (!border.isInside(spawnLoc)) {
+				PvPTeleport.instance.getLogger().info(String.format("Skipping location at (%f, %f, %f) as it is outside border", x, y, z));
+				continue;
+			}
 			
 			if (is_solid(blocktype)) {
 				String tmp = String.format("Found valid pvp world spawn location on attempt %d. (%f, %f, %f)", counter, x, y, z);
 				PvPTeleport.instance.getLogger().info(tmp);
 				return spawnLoc;
 			}
-
 		}
 
 		PvPTeleport.instance.getLogger().info("Tried over 1000 times to find a suitable spawn, no result.");
