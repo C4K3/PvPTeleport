@@ -162,6 +162,7 @@ public class PvPTransportation {
 			case SAND:
 			case SANDSTONE:
 			case STONE:
+			case SNOW_BLOCK:
 				return true;
 			default:
 				return false;
