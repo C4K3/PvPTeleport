@@ -1,6 +1,7 @@
 package net.simpvp.PvPTeleport;
 
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -127,8 +128,13 @@ public class PvPListCommand implements CommandExecutor {
 		int pvpCounter = 0;
 		String pvpList = " ";
 
-		for (Player tPlayer : PvPTeleport.instance.getServer()
-				.getWorld("pvp").getPlayers()) {
+		World world = PvPTeleport.instance.getServer().getWorld("pvp");
+		if (world == null || DisableWorldCommand.is_disabled) {
+			player.sendMessage(ChatColor.RED + "The pvp world is currently disabled.");
+			return;
+		}
+
+		for (Player tPlayer : world.getPlayers()) {
 
 			if (player == null || player.canSee(tPlayer)) {
 				pvpCounter++;
