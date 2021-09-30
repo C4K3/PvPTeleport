@@ -161,6 +161,7 @@ public class PvPTransportation {
 			case COBBLESTONE:
 			case DIRT:
 			case END_STONE:
+			case PINK_STAINED_GLASS:
 			case GLASS:
 			case GRASS_BLOCK:
 			case GRASS_PATH:
