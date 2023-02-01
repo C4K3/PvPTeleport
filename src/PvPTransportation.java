@@ -106,7 +106,7 @@ public class PvPTransportation {
 
 			/* Move downwards for as long as we have
 			 * nonsolid blocks until we reach a solid block */
-			while (is_nonsolid(blocktype) && y > 5) {
+			while (is_nonsolid(blocktype) && y > -59) {
 				y--;
 				spawnLoc.setY(y);
 				blocktype = spawnLoc.getBlock().getType();
