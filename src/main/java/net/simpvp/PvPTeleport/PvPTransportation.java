@@ -1,9 +1,13 @@
 package net.simpvp.PvPTeleport;
 
-import org.bukkit.*;
-import org.bukkit.entity.Player;
-
 import java.util.Random;
+
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.World;
+import org.bukkit.WorldBorder;
 
 /** Handles transportation from 'world' to 'pvp'.
  *
@@ -59,9 +63,10 @@ public class PvPTransportation {
 
 		Random RNG = new Random();
 
-		Material blocktype;
 		World pvpworld = PvPTeleport.instance.getServer().getWorld("pvp");
-		if (pvpworld == null) return null;
+		if (pvpworld == null) {
+			return null;
+		}
 		WorldBorder border = pvpworld.getWorldBorder();
 		double x_center = border.getCenter().getX();
 		double z_center = border.getCenter().getZ();
@@ -98,7 +103,7 @@ public class PvPTransportation {
 			spawnLoc.setY(y);
 			spawnLoc.setZ(z);
 
-			blocktype = spawnLoc.getBlock().getType();
+			Material blocktype = spawnLoc.getBlock().getType();
 
 			/* Move downwards for as long as we have
 			 * nonsolid blocks until we reach a solid block */
@@ -165,6 +170,9 @@ public class PvPTransportation {
 			case SANDSTONE:
 			case STONE:
 			case SNOW_BLOCK:
+			case OAK_PLANKS:
+			case SPRUCE_PLANKS:
+			case STONE_BRICKS:
 				return true;
 			default:
 				return false;
