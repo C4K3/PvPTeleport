@@ -1,6 +1,5 @@
 package net.simpvp.PvPTeleport;
 
-import java.util.Arrays;
 import java.util.Random;
 
 import org.bukkit.ChatColor;
@@ -11,7 +10,7 @@ import org.bukkit.World;
 import org.bukkit.WorldBorder;
 
 /** Handles transportation from 'world' to 'pvp'.
- * 
+ *
  * Generally called by WorldCommand.
  */
 public class PvPTransportation {
@@ -64,14 +63,16 @@ public class PvPTransportation {
 
 		Random RNG = new Random();
 
-		Material blocktype = null;
 		World pvpworld = PvPTeleport.instance.getServer().getWorld("pvp");
+		if (pvpworld == null) {
+			return null;
+		}
 		WorldBorder border = pvpworld.getWorldBorder();
-		Double x_center = border.getCenter().getX();
-		Double z_center = border.getCenter().getZ();
+		double x_center = border.getCenter().getX();
+		double z_center = border.getCenter().getZ();
 		/* Make the area within which players can spawn 50 less than the
 		 * border, so people don't spawn within 25 blocks of the border */
-		Double border_size = border.getSize() - 50;
+		double border_size = border.getSize() - 50;
 		if (border_size <= 0) {
 			border_size = border.getSize();
 		}
@@ -81,13 +82,13 @@ public class PvPTransportation {
 		/* Only give it 1 000 tries */
 		for (int counter = 0; counter < 1000; counter++) {
 
-			Double y = 255.0;
-			Double x = (double) RNG.nextInt(border_size.intValue()) - (border_size/2);
+			double y = 255.0;
+			double x = (double) RNG.nextInt((int) border_size) - (border_size/2);
 			/* + 0.5 to put it in the center of the block */
 			x += x_center + 0.5;
-			Double z = (double) RNG.nextInt(border_size.intValue()) - (border_size/2);
+			double z = (double) RNG.nextInt((int) border_size) - (border_size/2);
 			z += z_center + 0.5;
-			
+
 			/* If all randomly tried positions have failed, ensure
 			 * we try at least 0,0 and the border center */
 			if (counter == 998) {
@@ -102,11 +103,11 @@ public class PvPTransportation {
 			spawnLoc.setY(y);
 			spawnLoc.setZ(z);
 
-			blocktype = spawnLoc.getBlock().getType();
+			Material blocktype = spawnLoc.getBlock().getType();
 
 			/* Move downwards for as long as we have
 			 * nonsolid blocks until we reach a solid block */
-			while (is_nonsolid(blocktype) && y > 5) {
+			while (is_nonsolid(blocktype) && y > pvpworld.getMinHeight() + 5) {
 				y--;
 				spawnLoc.setY(y);
 				blocktype = spawnLoc.getBlock().getType();
@@ -116,7 +117,7 @@ public class PvPTransportation {
 				PvPTeleport.instance.getLogger().info(String.format("Skipping location at (%f, %f, %f) as it is outside border", x, y, z));
 				continue;
 			}
-			
+
 			if (is_solid(blocktype)) {
 				String tmp = String.format("Found valid pvp world spawn location on attempt %d. (%f, %f, %f)", counter, x, y, z);
 				PvPTeleport.instance.getLogger().info(tmp);
@@ -142,15 +143,12 @@ public class PvPTransportation {
 			case GRASS:
 			case DEAD_BUSH:
 			case DANDELION:
-			case ROSE_RED:
 			case BROWN_MUSHROOM:
 			case RED_MUSHROOM:
 			case TORCH:
-			case SIGN:
-			case WALL_SIGN:
-			      return true;
+				return true;
 			default:
-			      return false;
+				return false;
 		}
 	}
 
@@ -172,6 +170,9 @@ public class PvPTransportation {
 			case SANDSTONE:
 			case STONE:
 			case SNOW_BLOCK:
+			case OAK_PLANKS:
+			case SPRUCE_PLANKS:
+			case STONE_BRICKS:
 				return true;
 			default:
 				return false;
