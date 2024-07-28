@@ -5,6 +5,7 @@ import java.util.Random;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
@@ -103,23 +104,33 @@ public class PvPTransportation {
 			spawnLoc.setY(y);
 			spawnLoc.setZ(z);
 
-			Material blocktype = spawnLoc.getBlock().getType();
+			Block block = spawnLoc.getBlock();
+			Material material = block.getType();
 
 			/* Move downwards for as long as we have
-			 * nonsolid blocks until we reach a solid block */
-			while (is_nonsolid(blocktype) && y > pvpworld.getMinHeight() + 5) {
+			 * passable blocks until we reach an occluding block */
+			while (block.isPassable() && y > pvpworld.getMinHeight() + 5) {
 				y--;
 				spawnLoc.setY(y);
-				blocktype = spawnLoc.getBlock().getType();
+				block = spawnLoc.getBlock();
+				material = block.getType();
+
+				// Prevents spawning in or below lava/water
+				if (block.isLiquid()) {
+					break;
+				}
 			}
 
 			if (!border.isInside(spawnLoc)) {
 				PvPTeleport.instance.getLogger().info(String.format("Skipping location at (%f, %f, %f) as it is outside border", x, y, z));
 				continue;
 			}
+			// All isOccluding blocks are full solid blocks
+			if (material.isOccluding()) {
+				// y + 1 spawns on top of block
+				spawnLoc.setY(y + 1);
 
-			if (is_solid(blocktype)) {
-				String tmp = String.format("Found valid pvp world spawn location on attempt %d. (%f, %f, %f)", counter, x, y, z);
+				String tmp = String.format("Found valid pvp world spawn location on attempt %d. (%f, %f, %f)", counter, x, y + 1, z);
 				PvPTeleport.instance.getLogger().info(tmp);
 				return spawnLoc;
 			}
@@ -127,57 +138,5 @@ public class PvPTransportation {
 
 		PvPTeleport.instance.getLogger().info("Tried over 1000 times to find a suitable spawn, no result.");
 		return null;
-
 	}
-
-	/* Materials the player is allowed to spawn inside of */
-	private static boolean is_nonsolid(Material block) {
-		switch (block) {
-			case AIR:
-			case ACACIA_SAPLING:
-			case BIRCH_SAPLING:
-			case DARK_OAK_SAPLING:
-			case JUNGLE_SAPLING:
-			case OAK_SAPLING:
-			case SPRUCE_SAPLING:
-			case GRASS:
-			case DEAD_BUSH:
-			case DANDELION:
-			case BROWN_MUSHROOM:
-			case RED_MUSHROOM:
-			case TORCH:
-				return true;
-			default:
-				return false;
-		}
-	}
-
-	/* Materials the player is allowed to spawn on top of */
-	private static boolean is_solid(Material block) {
-		switch (block) {
-			case BEDROCK:
-			case COBBLESTONE:
-			case DIRT:
-			case END_STONE:
-			case PINK_STAINED_GLASS:
-			case GLASS:
-			case GRASS_BLOCK:
-			case GRASS_PATH:
-			case GRAVEL:
-			case NETHERRACK:
-			case OBSIDIAN:
-			case SAND:
-			case SANDSTONE:
-			case STONE:
-			case SNOW_BLOCK:
-			case OAK_PLANKS:
-			case SPRUCE_PLANKS:
-			case STONE_BRICKS:
-				return true;
-			default:
-				return false;
-		}
-	}
-
 }
-
