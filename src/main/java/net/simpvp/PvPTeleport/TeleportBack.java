@@ -39,8 +39,7 @@ public class TeleportBack {
 		String sPlayer = player.getName();
 		Location safeLocation = getSafeLocation(loc);
 		if (safeLocation == null) {
-			player.sendMessage(ChatColor.RED + "No safe location found near your saved location in the overworld!");
-			return;
+			safeLocation = loc; // Prevents players being locked in pvp world
 		}
 
 		player.teleport(safeLocation);
