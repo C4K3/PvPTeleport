@@ -1,5 +1,6 @@
 package net.simpvp.PvPTeleport;
 
+import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -14,10 +15,41 @@ public class PlayerJoin implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		JoinMessageAppend(event);
 
-		UUID uuid = event.getPlayer().getUniqueId();
+		Player player = event.getPlayer();
+		removePlayerFromOldWorld(player);
+
+		UUID uuid = player.getUniqueId();
 		if (SQLite.pvplistSubscribeGet(uuid)) {
 			PvPListCommand.subscribed_players.add(uuid);
 		}
+	}
+
+	private void removePlayerFromOldWorld(Player player) {
+		if (!player.getWorld().getName().equals("pvp")) return;
+
+		long lastReset = PvPTeleport.pvpLastReset;
+		if (lastReset <= 0L) return;
+
+		if (!player.hasPlayedBefore()) return;
+
+		long lastPlayed = player.getLastPlayed();
+		if (lastPlayed <= 0L || lastPlayed >= lastReset) return;
+
+		/* Delay to ensure the player is fully joined */
+		Bukkit.getScheduler().runTask(PvPTeleport.instance, () -> {
+
+			if (!player.isOnline()) return;
+			if (!player.getWorld().getName().equals("pvp")) return;
+
+			try {
+				TeleportBack.teleportBack(player);
+			} catch (Exception e) {
+				PvPTeleport.instance.getLogger().warning(
+						"Failed to remove " + player.getName() + " from pvp on join"
+				);
+				e.printStackTrace();
+			}
+		});
 	}
 
 	/**

@@ -45,6 +45,12 @@ public class DisableWorldCommand implements CommandExecutor {
 			sender.sendMessage("Disabling /world . . .");
 			is_disabled = true;
 
+			long currentTime = System.currentTimeMillis();
+			PvPTeleport.pvpLastReset = currentTime;
+
+			PvPTeleport.instance.getConfig().set("pvp_last_reset", currentTime);
+			PvPTeleport.instance.saveConfig();
+
 			World world = PvPTeleport.instance.getServer().getWorld("pvp");
 			for (Player p : world.getPlayers()) {
 				TeleportBack.teleportBack(p);

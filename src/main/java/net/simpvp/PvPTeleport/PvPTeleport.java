@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class PvPTeleport extends JavaPlugin {
 
 	public static JavaPlugin instance;
+	public static long pvpLastReset = 0L;
 
 	public void onEnable() {
 		instance = this;
@@ -16,6 +17,13 @@ public class PvPTeleport extends JavaPlugin {
 		if (!dir.exists()) {
 			dir.mkdir();
 		}
+
+		if (!getConfig().isLong("pvp_last_reset")) {
+			getConfig().set("pvp_last_reset", 0L);
+			saveConfig();
+		}
+
+		pvpLastReset = getConfig().getLong("pvp_last_reset", 0L);
 
 		getCommand("world").setExecutor(new WorldCommand());
 		getCommand("pvplist").setExecutor(new PvPListCommand());
