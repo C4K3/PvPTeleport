@@ -100,6 +100,11 @@ public class PvPTransportation {
 				z = z_center;
 			}
 
+			/* World border math can produce block-edge coordinates,
+			* so we re-center them here */
+			x = Math.floor(x) + 0.5;
+			z = Math.floor(z) + 0.5;
+
 			spawnLoc.setX(x);
 			spawnLoc.setY(y);
 			spawnLoc.setZ(z);
